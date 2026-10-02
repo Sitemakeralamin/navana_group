@@ -1,0 +1,325 @@
+﻿
+@media (max-width:500px) {
+    .hero_image_header_bayHills img {
+        height: 40vh !important;
+    }
+    /*#sm-screen{
+        display:block;
+    }
+    #lg-screen{
+        display:none;
+    }*/
+}
+/*@media (min-width:501px){
+    #sm-screen {
+        display: none;
+    }
+
+    #lg-screen {
+        display: block;
+    }
+}*/
+@media (max-width:768px) {
+    .hero_image_header_bayHills img {
+        height: 45vh;
+    }
+    
+}
+.hero_image_header_bayHills {
+    position:relative;
+}
+    .hero_image_header_bayHills img {
+        position: relative;
+        top: 0;
+        left: 0;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-0%, -0%);
+    }
+/*----- Project Video Gallery start -----*/
+.gallery-title {
+    font-size: 36px;
+    color: #42B32F;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 70px;
+}
+
+    .gallery-title:after {
+        content: "";
+        position: absolute;
+        width: 7.5%;
+        left: 46.5%;
+        height: 45px;
+        border-bottom: 1px solid #5e5e5e;
+    }
+
+#btn-default-parent .filter-div-button {
+    font-size: 1.2rem;
+    border: solid 1px #00aeef;
+    /*animation: all 0.5s ease;*/
+    transition: all 0.5s ease;
+    border-radius: 5px;
+    width: 30%;
+    border-radius: 40px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    color: #000;
+}
+
+    #btn-default-parent .filter-div-button:hover {
+        color: #fff;
+        background: #4ba9cc;
+    }
+
+#btn-default-parent .active {
+    color: #fff;
+    background: #00aeef;
+}
+
+.btn-default-parent {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+    align-items: center;
+    width: 40%;
+    border-radius: 40px;
+}
+
+.filter-div-button .active {
+    background-color: #42B32F;
+    color: white;
+}
+
+
+
+
+
+
+
+.video_container {
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    padding: 20px;
+    border-radius: 15px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
+    background-color: transparent;
+}
+
+.main-video-container {
+    flex: 1 1 750px;
+    position: relative;
+    height: 440px;
+    max-height: 440px;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+
+.main-video, .main-video3d, .main-videoRec {
+    position: relative;
+    max-width: fit-content;
+    background-size: cover;
+    max-width: 760px;
+    width: 100%;
+    height: 100%;
+    max-height: 430px;
+    border-radius: 15px;
+}
+
+    .main-video img, .main-video3d img, .main-videoRec img {
+        height: 100%;
+        width: 100%;
+        border-radius: 15px;
+    }
+
+.main-vid-title {
+    text-align: center;
+    font-size: 20px;
+    background-color: #1068B0;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.video-list-container {
+    flex: 1 1 300px;
+    height: 440px;
+    max-height: 440px;
+    border-left: 2px solid #eee;
+    background-color: #fff;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 15px 15px 15px 15px;
+    border-radius: 15px;
+}
+
+    .video-list-container::-webkit-scrollbar {
+        display: none;
+    }
+    .video-list-container .list:hover {
+        background-color: #00aeef;
+        color: #fff !important;
+    }
+        .video-list-container .list:hover .list-title, .video-list-container .list:hover .list-description {
+            color: #fff !important;
+        }
+         .video-list-container .list:hover .list-video img {
+            border: solid 1px #fff !important;
+        }
+.list {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border: 1px solid #eee;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: all 0.8s ease-out;
+}
+
+    .list:last-child {
+        margin-bottom: 0;
+    }
+
+    .list.active, .list3d.active, .listRec .active {
+        background-color: #00aeef;
+        transition: all 0.3s ease 0s;
+    }
+
+.container .video-list-container .list.active .list-title, .container .video-list-container .list3d.active .list-title, .container .video-list-container .listRec.active .list-title {
+    color: #fff;
+}
+
+.container .video-list-container .list.active .list-description, .container .video-list-container .list3d.active .list-description, .container .video-list-container .listRec.active .list-description {
+    color: #fff;
+}
+
+.list-video {
+    width: 40%;
+    height: 80px;
+    border-radius: 5px;
+}
+
+    .list-video img {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+    }
+
+.list-title-desc {
+    width: 60%;
+}
+
+.list-description {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 14px;
+    color: #444;
+}
+
+.list-title {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 14px;
+    color: #202020;
+}
+
+@media (max-width:1200px) {
+
+
+    .video_container {
+        flex-wrap: nowrap;
+    }
+
+    .main-video-container {
+        height: 360px;
+    }
+
+    .video-list-container {
+        border: none !important;
+        padding: 15px !important;
+        height: 360px;
+    }
+
+    .btn-default-parent {
+        width: 90% !important;
+    }
+}
+
+@media (max-width:768px) {
+    .list-video {
+        width: 40%;
+    }
+
+    .video_container {
+        flex-wrap: wrap;
+    }
+
+    .main-video-container {
+        height: 300px;
+    }
+}
+
+@media (max-width:450px) {
+    .main-video-container {
+        height: 200px;
+    }
+
+    .video_container {
+        flex-wrap: wrap;
+    }
+
+    .video-list-container {
+        border: none !important;
+        padding: 15px !important;
+        height: 300px;
+    }
+
+    .main-vid-title {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .list {
+        flex-flow: column;
+        gap: 10px;
+        padding: 0;
+    }
+
+    .list-video {
+        width: 40%;
+    }
+
+    .list-title {
+        font-size: 12px;
+        text-align: start;
+        font-weight: bold;
+    }
+
+    .btn-default-parent {
+        width: 75% !important;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-div-button {
+        width: 70%;
+    }
+}
+/*----- Project Video Gallery end -----*/
+
+
+
+
+#project_about__logo_slider {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0;
+}
