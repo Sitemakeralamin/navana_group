@@ -610,8 +610,14 @@
 </style>
 @endsection
 @section('main')
+@php
+    $intro = $content->section('intro');
+    $ownership = $content->section('ownership');
+    $photos = $content->section('photos');
+    $videos = $content->section('videos');
+@endphp
 <div class="hero_image_header_bayHills" >
-        <img class="w-100" src="{{asset('assets/ghrweb/Sites/GHRWEB/ProjectBanner/2eace455-2f4f-4199-8712-500fc21d0dca.jpg')}}" alt="Sun Wave" />
+        <img class="w-100" src="{{ $content->section('banner')->src() }}" alt="Sun Wave" />
     </div>
 
 
@@ -621,18 +627,12 @@
             <div class="branch__container__2">
                 <div class="row align-items-center">
                     <div class="col-lg-5 p-5 pb-0 pt-0">
-                        <h1 class="aboutus__title">Sun Wave Hotel and Resort</h1>
-                        <p class="about__description">Kuakata is a highly promising tourist destination in the southern region of Bangladesh, located in Patuakhali District. It is becoming increasingly popular among local and international tourists due to its sea beach and natural beauty.
-
-After Cox’s Bazar, Kuakata is known as one of the most attractive sea beaches in Bangladesh. It offers the rare opportunity to enjoy both sunrise and sunset from the same location, which gives Kuakata a unique position on the tourism map of the country.
-
-Considering this potential, Sun Wave Hotel & Resort has taken the initiative to develop a modern, attractive, and international-standard hotel-resort project in Kuakata.
-
-Our main objective is to ensure safe, comfortable, and enjoyable accommodation facilities for tourists, while also creating a profitable and reliable investment opportunity for investors.</p>
+                        <h1 class="aboutus__title">{{ $intro->title }}</h1>
+                        <p class="about__description">{{ $intro->body }}</p>
                         <div class="mt-30 project__nfo">
                             <ul class="d-flex project__info__links">
                                 <li>
-                                    <a class="hov__button" href="javascript:void(0)" data-fancybox data-src="https://www.google.com/maps/place/SUN+WAVE+Hotel+%2526+Resort/@21.819933,90.1134957,88m/data">
+                                    <a class="hov__button" href="javascript:void(0)" data-fancybox data-src="{{ $intro->href() }}">
                                         <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
                                              data-src="{{asset('assets/map.gif')}}" data-sizes="auto" />
                                         <noscript> <img alt="new" src="{{asset('assets/map.gif')}}" /> </noscript>
@@ -641,9 +641,9 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
 
                                 </li>
                                 <li>
-                                    <a class="hov__button" href="{{asset('assets/Home/GROUND FLOOR PLAN.pdf')}}">
+                                    <a class="hov__button" href="{{ $intro->src('brochure') }}">
                                         <img alt="new" class="lazyload map__hov" src="{{asset('assets/_blank.webp')}}"
-                                             data-src="assets/download.gif" data-sizes="auto" />
+                                             data-src="{{asset('assets/download.gif')}}" data-sizes="auto" />
                                         <noscript> <img alt="new" src="{{asset('assets/download.gif')}}" /> </noscript>
                                         <span class="hov__text">Download Brochure</span>
                                     </a>
@@ -663,14 +663,14 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
                                 <div class="content">
                                     <div class="row align-items-center">
                                         <div class="pb-0">
-                                            <h4 class="aboutus__title">Sun Wave Hotel &amp; Resort</h4>
-                                            <p class="about__description">Sun Wave Hotel and Resort, Kuakata is the iconic flagship 4-star property by Nanova Group. Located in scenic Kuakata, this upscale hotel is a masterpiece of modern architecture, elegant decor, and luxury amenities. Guests can look forward to world-class, professional service that makes every leisure moment unforgettable. Nestled perfectly between the hills and the sea, the hotel offers a uniquely breathtaking view of the Bay of Bengal, panoramic mountain waterfalls, and lush greenery.</p>
+                                            <h4 class="aboutus__title">{{ $intro->value('popup_title') }}</h4>
+                                            <p class="about__description">{{ $intro->value('popup_body') }}</p>
                                         </div>
                                         <div class="pt-0" style="display: flex; flex-direction: column; align-items: center;">
                                             <div class="about_logo_project" style="height:50%;">
                                                 <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
-                                                     data-src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/Sunwave-front-view.jpg')}}" data-sizes="auto" />
-                                                <noscript> <img alt="new" src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/Sunwave-front-view.jpg')}}" /> </noscript>
+                                                     data-src="{{ $intro->src('popup_image') }}" data-sizes="auto" />
+                                                <noscript> <img alt="new" src="{{ $intro->src('popup_image') }}" /> </noscript>
                                             </div>
                                         </div>
 
@@ -684,8 +684,8 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
                     <div class="col-lg-7">
                         <div class="aboutus__img text-center">
                             <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
-                                 data-src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/Sunwave-front-view.jpg')}}" data-sizes="60%" width="200" />
-                            <noscript> <img alt="new" src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/Sunwave-front-view.jpg')}}" width="200" /> </noscript>
+                                 data-src="{{ $intro->src() }}" data-sizes="60%" width="200" />
+                            <noscript> <img alt="new" src="{{ $intro->src() }}" width="200" /> </noscript>
 
                         </div>
 
@@ -694,25 +694,25 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
             </div>
         </div>
     </section>
-    
+
     <!--CATEGORY OF OWNERSHIP start-->
     <section class="branch-section mt-0 pb-0 pt-30">
         <div class="container" style="display: flex; align-items: center; justify-content: center;">
             <div class="branch__container__2" style="background-color: rgba(235, 240, 250, 1);">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h2 class="section__header primary-color">CATEGORY OF OWNERSHIP</h2>
+                        <h2 class="section__header primary-color">{{ $ownership->title }}</h2>
                     </div>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-lg-6">
 
                         <div class="video-wrapper text-center">
-                            <a data-fancybox="gallery" href="assets/ExecutiveSuite.webp">
+                            <a data-fancybox="gallery" href="{{ $ownership->src('full_image') }}">
                                 <div class="poster-img-wrap">
                                     <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
-                                         data-src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/couple-suite.jpg')}}" data-sizes="auto" />
-                                    <noscript> <img src="{{asset('assets/ExecutiveSuite.webp')}}" /> </noscript>
+                                         data-src="{{ $ownership->src() }}" data-sizes="auto" />
+                                    <noscript> <img src="{{ $ownership->src('full_image') }}" /> </noscript>
 
                                 </div>
                             </a>
@@ -721,26 +721,15 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
                     <div class="col-lg-6 col-sm-12 col-md-12 align-items-center">
                         <div class="ownership__suite div_grow row">
 
+                            @foreach ($ownership->visibleItems() as $suite)
                                 <div class="col-md-3 col-lg-3 col-sm-12 suite__box mb-3">
-                                    Standard Suite
-                                    <div class="suitebox_down">630-720 sft.</div>
+                                    {{ $suite->title }}
+                                    <div class="suitebox_down">{{ $suite->subtitle }}</div>
                                 </div>
-                                <div class="col-md-3 col-lg-3 col-sm-12 suite__box mb-3">
-                                    Executive Suite
-                                    <div class="suitebox_down">750-780 sft.</div>
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-sm-12 suite__box mb-3">
-                                    Presidential Suite
-                                    <div class="suitebox_down">1950 sft.</div>
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-sm-12 suite__box mb-3">
-                                    Family Suite
-                                    <div class="suitebox_down">2280 sft.</div>
-                                </div>
+                            @endforeach
 
                             <div class="col-md-6 col-lg-6 col-sm-12 suite__box p-3">
-                                Single &amp;
-                                Multiple Ownership
+                                {{ $ownership->subtitle }}
                             </div>
                         </div>
                     </div>
@@ -752,185 +741,66 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
 
 
 
+    @foreach (['objectives', 'comparison', 'difference'] as $key)
+        @php($block = $content->section($key))
         <section class="branch-section mt-0  pt-0 pb-0">
             <div class="container" style="display: flex; align-items: center; justify-content: center;">
                 <div class="branch__container__2" style="background-color: rgba(235, 240, 250, 1);" style="height:auto;">
                     <div class="row align-items-center justify-content-center">
                         <div class="about__title_bw ">
                             <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
-                                 data-src="{{asset('assets/bestWestern.webp')}}" data-sizes="auto" />
-                            <noscript> <img src="{{asset('assets/bestWestern.webp')}}" /> </noscript>
+                                 data-src="{{ $block->src() }}" data-sizes="auto" />
+                            <noscript> <img src="{{ $block->src() }}" /> </noscript>
                         </div>
                     </div>
+                    @unless ($loop->last)
                     <div class="row align-items-center">
+                    @endunless
                         <div class="col-lg-12">
                             <div class="about__box-wrap pt-0 pb-0">
                                 <div class="about__subhead">
                                     <p class="subhead__p">
-                                        Sun Wave Hotel &amp; Resort Objectives
+                                        {{ $block->title }}
                                     </p>
                                 </div>
 
                                 <p class="about__description">
                                     <ul>
-                                        <li>The main goal of Sun Wave Hotel & Resort is to utilize the tourism potential of Kuakata and build a modern, safe, and high-quality hotel-resort project.</li>
-
-                                        <li>We are committed to ensuring comfortable accommodation, improved services, and enjoyable travel experiences for our respected guests.</li>
-
-                                        <li>At the same time, one of our key objectives is to create a transparent, secure, and profitable investment opportunity for investors.</li>
-
-                                        <li>Through this project, we expect to play a positive role in the development of Kuakata’s tourism industry, employment generation, and the economic progress of the country.</li>
+                                        @foreach ($block->visibleItems() as $point)
+                                        <li>{{ $point->title }}</li>
+                                        @endforeach
                                     </ul>
-                                    
+
                                 </p>
-                                
+
                             </div>
                         </div>
+                    @unless ($loop->last)
                     </div>
+                    @endunless
                 </div>
             </div>
         </section>
-        <section class="branch-section mt-0  pt-0 pb-0">
-            <div class="container" style="display: flex; align-items: center; justify-content: center;">
-                <div class="branch__container__2" style="background-color: rgba(235, 240, 250, 1);" style="height:auto;">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="about__title_bw ">
-                            <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
-                                 data-src="{{asset('assets/bestWestern.webp')}}" data-sizes="auto" />
-                            <noscript> <img src="{{asset('assets/bestWestern.webp')}}" /> </noscript>
-                        </div>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-lg-12">
-                            <div class="about__box-wrap pt-0 pb-0">
-                                <div class="about__subhead">
-                                    <p class="subhead__p">
-                                        Comparative Discussion
-                                    </p>
-                                </div>
-                                <p class="about__description">
-                                    <ul>
-                                        <li>Most hotel shares are sold in large numbers, usually ranging from 8,000 to 15,000 small shares. However, the total number of hotel rooms is usually not more than 200 to 250.</li>
-                                        <li>When the share value is very low, ensuring profit according to that share becomes difficult and unrealistic.</li>
-                                    </ul>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="branch-section mt-0  pt-0 pb-0">
-            <div class="container" style="display: flex; align-items: center; justify-content: center;">
-                <div class="branch__container__2" style="background-color: rgba(235, 240, 250, 1);" style="height:auto;">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="about__title_bw ">
-                            <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
-                                 data-src="{{asset('assets/bestWestern.webp')}}" data-sizes="auto" />
-                            <noscript> <img src="{{asset('assets/bestWestern.webp')}}" /> </noscript>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-12">
-                        <div class="about__box-wrap pt-0 pb-0">
-                            <div class="about__subhead">
-                                <p class="subhead__p">
-                                    Difference
-                                </p>
-                            </div>
-                            <p class="about__description">
-                                <ul>
-                                    <li>In our project, room-based shares will be provided. The room owners will remain connected with the hotel management system.</li>
-                                    <li>As a result, they will be able to know which room was rented, for how many days, and at what rate.</li>
-                                    <li>At the end of the year, your specific profit share will be sent to your account.</li>
-                                    <li>We have divided each room into a maximum of five shares.</li>
-                                    <li>If any customer wants to take a loan, arrangements will be made for that as well.
-</li>
-                                </ul>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    <!-- project-video--start -->
-    <!-- project-video--end -->
-    <!-- about-section start -->
-    <!-- about-section end -->
+    @endforeach
     <!--Photo Gallary start-->
     <section class="branch-section mt-0 pt-0 pb-0">
         <div class="container" style="display: flex; align-items: center; justify-content: center;">
             <div class="branch__container" style="background-color:#EBF0FA; overflow:hidden;">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h2 class="section__header">Photo Gallery</h2>
+                        <h2 class="section__header">{{ $photos->title }}</h2>
                     </div>
                 </div>
                 <div class="slideshow-container">
 
-                <!-- Slide 1 -->
+                @foreach ($photos->visibleItems() as $photo)
                 <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/sun-wave.jpg')}}" alt="Sun View Hotel and Resort" onclick="openLightbox(this)">
-                    <div class="slide-text">Sun Wave Hotel &amp; Resort</div>
+                    <img src="{{ $photo->src() }}" alt="{{ $photo->title }}" onclick="openLightbox(this)">
+                    @if ($photo->subtitle)
+                    <div class="slide-text">{{ $photo->subtitle }}</div>
+                    @endif
                 </div>
-
-                <!-- Slide 2 -->
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/sunwave-view.jpg')}}" alt="Sun View Hotel and Resort" onclick="openLightbox(this)">
-                    <div class="slide-text">Sun View</div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/8.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <!-- Slide 4 -->
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/9.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <!-- Slide 5 -->
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/11.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/12.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/13.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/14.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/15.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/16.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/17.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/18.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/26.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
-                <div class="mySlides fade">
-                    <img src="{{asset('assets/gallery/sunwave/28.jpg')}}" alt="Couple Room" onclick="openLightbox(this)">
-                    <!-- <div class="slide-text">Forest Path</div> -->
-                </div>
+                @endforeach
 
                 <!-- Arrow Navigation -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -961,7 +831,6 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
 
 
     <!--Photo Gallary end-->
-    <!-- --video gallery start-- -->
     <!-- video-gallery-section start -->
 
     <section class="branch-section mt-0 pt-0 pb-0 d-flex align-items-center">
@@ -969,7 +838,7 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
                     <div class="branch__container pb-0" style="background-color: rgba(235, 240, 250, 1);">
                         <div class="row">
                             <div class="col-lg-12 text-center mb-20">
-                                <h4 class="section__header primary-color">Video Gallery Now</h4>
+                                <h4 class="section__header primary-color">{{ $videos->title }}</h4>
                             </div>
                         </div>
 
@@ -984,7 +853,7 @@ Our main objective is to ensure safe, comfortable, and enjoyable accommodation f
                             <div class="gallery_product col-lg-12 filter hdpe">
                                 <div class="video_container">
                                     <div class="main-video-container">
-                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/APCsrnYlGUs?si=x7NWaqEza1kkBLM-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                        <iframe width="560" height="315" src="{{ $videos->href() }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
                                     </div>

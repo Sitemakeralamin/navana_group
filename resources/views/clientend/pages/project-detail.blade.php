@@ -241,46 +241,24 @@
 </style>
 @endsection
 @section('main')
+    @php
+        $plans = $content->section('floor_plans')->visibleItems();
+        $firstPlan = $plans->first();
+    @endphp
     <section class="branch-section pb-0">
         <div class="container-fluid" style="display: flex; align-items: center; justify-content: center; padding-top: 120px;">
             <div class="branch__container p-0">
                 <div class="viewer-container">
                   <!-- Left Side: Thumbnails (20%) -->
                   <div class="thumbnail-sidebar">
-                        <div class="thumb-wrapper active">
-                            <img src="{{asset('assets/brochure/BASEMENT_FLOOR_PLAN.jpg')}}" class="thumb" alt="BASEMENT FLOOR PLAN">
-                            <div class="thumb-caption">BASEMENT FLOOR PLAN</div>
+                    @foreach ($plans as $plan)
+                        <div class="thumb-wrapper{{ $loop->first ? ' active' : '' }}">
+                            <img src="{{ $plan->src() }}" class="thumb" alt="{{ $plan->title }}">
+                            <div class="thumb-caption">{{ $plan->title }}</div>
                         </div>
-                        <div class="thumb-wrapper">
-                            <img src="{{asset('assets/brochure/GROUND_FLOOR_PLAN.jpg')}}" class="thumb" alt="GROUND FLOOR PLAN">
-                            <div class="thumb-caption">GROUND FLOOR PLAN</div>
-                        </div>
-                        <div class="thumb-wrapper">
-                            <img src="{{asset('assets/brochure/1ST_FLOOR_PLAN.jpg')}}" class="thumb" alt="1st FLOOR PLAN">
-                            <div class="thumb-caption">1ST FLOOR PLAN</div>
-                        </div>
-                        <div class="thumb-wrapper">
-                            <img src="{{asset('assets/brochure/2ND_TO_5TH_FLOOR_PLAN.jpg')}}" class="thumb" alt="2nd to 5th FLOOR PLAN">
-                            <div class="thumb-caption">2ND To 5TH FLOOR PLAN</div>
-                        </div>
-                        <div class="thumb-wrapper">
-                            <img src="{{asset('assets/brochure/5TH_FLOOR_PLAN-1.jpg')}}" class="thumb" alt="5th FLOOR PLAN 1">
-                            <div class="thumb-caption">5TH FLOOR PLAN 1</div>
-                        </div>
-                        <div class="thumb-wrapper">
-                            <img src="{{asset('assets/brochure/5TH_FLOOR_PLAN.jpg')}}" class="thumb" alt="5th FLOOR PLAN">
-                            <div class="thumb-caption">5TH FLOOR PLAN</div>
-                        </div>
-                        <div class="thumb-wrapper">
-                            <img src="{{asset('assets/brochure/8TH_FLOOR_PLAN.jpg')}}" class="thumb" alt="8th FLOOR PLAN">
-                            <div class="thumb-caption">8TH FLOOR PLAN</div>
-                        </div>
-                        <div class="thumb-wrapper">
-                            <img src="{{asset('assets/brochure/9TH_FLOOR_PLAN.jpg')}}" class="thumb" alt="9th FLOOR PLAN">
-                            <div class="thumb-caption">9TH FLOOR PLAN</div>
-                        </div>
+                    @endforeach
                   </div>
-        
+
                   <!-- Right Side: Main Display (80%) -->
                   <div class="main-viewer" id="mainViewer">
                      <div class="zoom-controls">
@@ -288,12 +266,12 @@
                           <button id="zoomOutBtn" title="Zoom Out">−</button>
                           <button id="resetBtn" title="Reset View">⟲</button>
                         </div>
-                    
-                        <img src="{{asset('assets/brochure/BASEMENT_FLOOR_PLAN.jpg')}}" id="displayImage" alt="Main Display">
-                        <div class="main-caption" id="mainCaption">BASEMENT FLOOR PLAN</div>
+
+                        <img src="{{ $firstPlan?->src() }}" id="displayImage" alt="Main Display">
+                        <div class="main-caption" id="mainCaption">{{ $firstPlan?->title }}</div>
                   </div>
                 </div>
-            </div>        
+            </div>
         </div>
     </section>
 @endsection

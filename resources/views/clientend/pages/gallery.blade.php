@@ -197,107 +197,34 @@
 </style>
 @endsection
 @section('main')
+@php($gallery = $content->section('images'))
 <section class="branch-section pb-0">
         <div class="container" style="display: flex; align-items: center; justify-content: center; padding-top: 120px;">
             <div class="branch__container p-0" id="my-gallery">
                 <div class="gallery-container">
-                    <h2>Our Gallery</h2>
+                    <h2>{{ $gallery->title }}</h2>
                     <div class="gallery-grid">
-                        <!-- Item 1 -->
+                        @foreach ($gallery->visibleItems() as $photo)
                         <div class="gallery-item">
-                            <img src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/Sunwave-View.jpg')}}" alt="Sun Wave View" class="lightbox-trigger">
+                            <img src="{{ $photo->src() }}" alt="{{ $photo->title }}" class="lightbox-trigger">
                         </div>
-                        <!-- Item 2 -->
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/Sunwave-front-view.jpg')}}" alt="Sun Wave Front View" class="lightbox-trigger">
-                        </div>
-                        <!-- Item 3 -->
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/ghrweb/Sites/GHRWEB/HBanner/couple-suite.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/11.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/12.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/13.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/18.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/26.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/28.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/1.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/2.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/3.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/4.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/5.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/6.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/7.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/20.png')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/image-1.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/image-2.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/image-3.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-                        
-                        <div class="gallery-item">
-                            <img src="{{asset('assets/gallery/sunwave/image-4.jpg')}}" alt="Couple Suite" class="lightbox-trigger">
-                        </div>
-
-
+                        @endforeach
                     </div>
-                </div>    
-            </div>        
+                </div>
+            </div>
         </div>
     </section>
     <!-- Lightbox Modal Container -->
     <div id="gallery-lightbox" class="lightbox">
     <span class="lightbox-close">&times;</span>
-    
+
     <!-- Navigation Arrows -->
     <button class="lightbox-arrow" id="prev-btn">&#10094;</button>
     <button class="lightbox-arrow" id="next-btn">&#10095;</button>
-    
+
     <img class="lightbox-content" id="lightbox-img" src="" alt="">
     <div id="lightbox-caption"></div>
-    </div>    
+    </div>
 
 @endsection
 @section('page-script')

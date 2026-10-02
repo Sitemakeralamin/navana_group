@@ -33,7 +33,7 @@
             <div class="side_back1"></div>
             <div class="side_letter1">
                 <div class="side_text1">
-                    <a href="https://wa.me/8801945484848" target="_blank" aria-label="Click to Contact Whatsapp">
+                    <a href="{{ $layout->section('contact')->href() }}" target="_blank" aria-label="Click to Contact Whatsapp">
                         <img src="{{asset('assets/whatsapp.webp')}}" alt="Nanova-group-whatsapp">
                     </a>
                 </div>

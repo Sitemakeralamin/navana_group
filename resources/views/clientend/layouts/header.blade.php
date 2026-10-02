@@ -1,3 +1,9 @@
+@php
+    $logo = $layout->section('brand')->src();
+    $projectMenu = $layout->section('project_menu')->visibleItems();
+    // Keeps the ids the original markup used for the first four categories.
+    $mobileMenuIds = ['HotelV', 'LandV', 'ApartmentV', 'IspV'];
+@endphp
 <!-- header start -->
         <header  class="header__main">
             <button  class="f-button" style="display:none" aria-label="Header Main Button" ></button>
@@ -19,7 +25,7 @@
                             <div  class="main__logo">
                                 <div  class="main__logo--title">
                                     <a  class="main__logo--link" href="{{url('/')}}" aria-label="Main Logo">
-                                        <img  class="main__logo--img" src="{{asset('assets/logo.png')}}" alt="logo-img" width="100%" height="100%">
+                                        <img  class="main__logo--img" src="{{ $logo }}" alt="logo-img" width="100%" height="100%">
                                     </a>
                                 </div>
                             </div>
@@ -73,7 +79,7 @@
                             <div  class="main__logo">
                                 <div  class="main__logo--title">
                                     <a  class="main__logo--link" href="{{url('/')}}" aria-label="Main Logo">
-                                        <img  class="main__logo--img" src="{{asset('assets/logo.png')}}" alt="logo-img">
+                                        <img  class="main__logo--img" src="{{ $logo }}" alt="logo-img">
                                     </a>
                                 </div>
                             </div>
@@ -94,44 +100,20 @@
                                                 </svg>
                                             </a>
                                             <ul  class="header__sub--menu">
+                                                @foreach ($projectMenu as $category)
                                                             <li  class="header__sub--menu__items">
                                                                 <a  href="javascript:void(0)"
-                                                                   class="header__sub--menu__link" aria-label="Business Category">Hotel</a>
-                                                                <ul  class="header__sub--menu_2">
+                                                                   class="header__sub--menu__link" aria-label="Business Category">{{ $category->title }}</a>
+                                                                <ul  class="header__sub--menu_{{ $loop->iteration + 1 }}">
+                                                                    @foreach ($category->children as $project)
                                                                         <li  class="header__sub--menu__items_2">
-                                                                            <a  href="{{url('/project/hotel/sunwave')}}" aria-label="Project Name"
-                                                                               class="header__sub--menu__link">SUN Wave Hotel &amp; and resort</a>
+                                                                            <a  href="{{ $project->href() }}" aria-label="Project Name"
+                                                                               class="header__sub--menu__link">{{ $project->title }}</a>
                                                                         </li>
-                                                                        
+                                                                    @endforeach
                                                                 </ul>
                                                             </li>
-                                                            <li  class="header__sub--menu__items">
-                                                                <a  href="javascript:void(0)"
-                                                                   class="header__sub--menu__link" aria-label="Business Category">Land</a>
-                                                                <ul  class="header__sub--menu_3">
-                                                                        
-                                                                </ul>
-                                                            </li>
-                                                            <li  class="header__sub--menu__items">
-                                                                <a  href="javascript:void(0)"
-                                                                   class="header__sub--menu__link" aria-label="Business Category">Online Shop</a>
-                                                                <ul  class="header__sub--menu_4">
-                                                                        <li  class="header__sub--menu__items_2">
-                                                                            <a  href="https://nanovashop.com" aria-label="Project Name"
-                                                                               class="header__sub--menu__link">Nanova Shop</a>
-                                                                        </li>
-                                                                </ul>
-                                                            </li>
-                                                            <li  class="header__sub--menu__items">
-                                                                <a  href="javascript:void(0)"
-                                                                   class="header__sub--menu__link" aria-label="Business Category">ISP</a>
-                                                                <ul  class="header__sub--menu_5">
-                                                                        <li  class="header__sub--menu__items_2">
-                                                                            <a  href="isp.html" aria-label="Project Name"
-                                                                               class="header__sub--menu__link">Song Jozan Internet</a>
-                                                                        </li>
-                                                                </ul>
-                                                            </li>
+                                                @endforeach
                                             </ul>
                                         </li>
                                         <li  class="header__menu--items navActiveMenu">
@@ -209,7 +191,7 @@
         <div  class="offcanvas__inner">
             <div  class="offcanvas__logo">
                 <a  class="offcanvas__logo_link" href="{{url('/')}}" aria-label="Main Logo">
-                    <img  class="main__logo--img" src=" {{asset('assets/logo.png')}}" alt="logo-img">
+                    <img  class="main__logo--img" src="{{ $logo }}" alt="logo-img">
                 </a>
                 <button  class="offcanvas__close--btn" data-offcanvas  aria-label="Close Button">close</button>
             </div>
@@ -221,42 +203,21 @@
                     <li  class="offcanvas__menu_li">
                         <a  class="offcanvas__menu_item" onclick="ProjectView()" href="javascript:void(0)" aria-label="Our Projects">Our Projects</a>
                         <ul  class="offcanvas__sub_menu" id="ProjectV">
+                                @foreach ($projectMenu as $category)
+                                    @php($menuId = $mobileMenuIds[$loop->index] ?? 'ProjectCategory'.$category->id.'V')
                                         <li  class="offcanvas__sub_menu_li">
-                                            <a  href="javascript:void(0)" aria-label="Business Category" class="offcanvas__sub_menu_item" onclick="HotelView()">Hotel</a>
-                                            <ul  class="offcanvas__sub_menu" id="HotelV">
+                                            <a  href="javascript:void(0)" aria-label="Business Category" class="offcanvas__sub_menu_item" onclick="$('#{{ $menuId }}btn').trigger('click')">{{ $category->title }}</a>
+                                            <ul  class="offcanvas__sub_menu" id="{{ $menuId }}">
+                                                @foreach ($category->children as $project)
                                                     <li  class="offcanvas__sub_menu_li">
                                                         <a  class="offcanvas__sub_menu_item" aria-label="Project Name"
-                                                           href="{{url('/project/hotel/sunwave')}}">Sun Wave Hotel & Resort</a>
+                                                           href="{{ $project->href() }}">{{ $project->title }}</a>
                                                     </li>
-                                                    
+                                                @endforeach
                                             </ul>
-                                            <button  class="offcanvas__sub_menu_toggle" id="HotelVbtn" aria-label="Hotel Button"></button>
+                                            <button  class="offcanvas__sub_menu_toggle" id="{{ $menuId }}btn" aria-label="{{ $category->title }} Button"></button>
                                         </li>
-                                        <li  class="offcanvas__sub_menu_li">
-                                            <a  href="javascript:void()" class="offcanvas__sub_menu_item" onclick="LandView()" aria-label="Business Category">Land</a>
-                                            <ul  class="offcanvas__sub_menu" id="LandV">
-                                                    
-                                            </ul>
-                                            <button  class="offcanvas__sub_menu_toggle" id="LandVbtn" aria-label="Land Button"></button>
-                                        </li>
-                                        <li  class="offcanvas__sub_menu_li">
-                                            <a  href="javascript:void()" class="offcanvas__sub_menu_item" onclick="ApartmentView()" aria-label="Business Category">Online Shop</a>
-                                            <ul  class="offcanvas__sub_menu" id="ApartmentV">
-                                                    <li  class="offcanvas__sub_menu_li">
-                                                        <a  class="offcanvas__sub_menu_item" href="https://nanovashop.com" aria-label="Nanova Shop">Nanova Shop</a>
-                                                    </li>
-                                            </ul>
-                                            <button  class="offcanvas__sub_menu_toggle" id="ApartmentVbtn" aria-label="Appartment Button"></button>
-                                        </li>
-                                        <li  class="offcanvas__sub_menu_li">
-                                            <a  href="javascript:void()" class="offcanvas__sub_menu_item" onclick="IspView()" aria-label="Business Category">ISP</a>
-                                            <ul  class="offcanvas__sub_menu" id="IspV">
-                                                    <li  class="offcanvas__sub_menu_li">
-                                                        <a  class="offcanvas__sub_menu_item" href="isp.html" aria-label="ISP">Songjozan Internet</a>
-                                                    </li>
-                                            </ul>
-                                            <button  class="offcanvas__sub_menu_toggle" id="IspVbtn" aria-label="Isp Button"></button>
-                                        </li>
+                                @endforeach
                         </ul>
                         <button  class="offcanvas__sub_menu_toggle" id="ProjectVbtn" aria-label="Project Button"></button>
                     </li>
