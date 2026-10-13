@@ -937,7 +937,7 @@ html body .db {
 }
 .header__section {
   margin: 50px 30px 20px;
-  border-radius: 50px;
+  border-radius: 0;
 }
 @media (min-width: 1025px) {
   .header__transparrent {
@@ -1311,11 +1311,11 @@ html body .db {
     padding: 6px 0px;
     display: block;
     background-color: white;
-    border-radius: 30px;
+    border-radius: 0;
   }
 }
 .mobile__menu-header {
-  border-radius: 50px;
+  border-radius: 0;
   border: 2px solid rgba(166, 166, 166, 0.68);
   background: var(--white-color);
   padding: 5px;

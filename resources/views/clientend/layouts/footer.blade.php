@@ -67,7 +67,7 @@
                             <p > {{ $footer->value('copyright') }}</p>
                         </li>
                         <li b-ks10nv8eex class="payment-icon">
-                                        <img b-ks10nv8eex src="{{ $footer->src() }}" alt="goldsands group payment" />
+                                        <img b-ks10nv8eex src="{{ $footer->src() }}" alt="Nanova Commercial payment" />
 
                         </li>
                         <li  class="powered-by">
@@ -150,7 +150,7 @@
 
                             </li>
                             <li b-ks10nv8eex class="payment-icon">
-                                        <img b-ks10nv8eex src="{{ $footer->src() }}" alt="goldsands group payment" />
+                                        <img b-ks10nv8eex src="{{ $footer->src() }}" alt="Nanova Commercial payment" />
 
                         </li>
 

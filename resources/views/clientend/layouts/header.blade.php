@@ -102,8 +102,9 @@
                                             <ul  class="header__sub--menu">
                                                 @foreach ($projectMenu as $category)
                                                             <li  class="header__sub--menu__items">
-                                                                <a  href="javascript:void(0)"
+                                                                <a  href="{{ $category->children->isEmpty() ? $category->href() : 'javascript:void(0)' }}"
                                                                    class="header__sub--menu__link" aria-label="Business Category">{{ $category->title }}</a>
+                                                                @if ($category->children->isNotEmpty())
                                                                 <ul  class="header__sub--menu_{{ $loop->iteration + 1 }}">
                                                                     @foreach ($category->children as $project)
                                                                         <li  class="header__sub--menu__items_2">
@@ -112,6 +113,7 @@
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
+                                                                @endif
                                                             </li>
                                                 @endforeach
                                             </ul>
@@ -206,6 +208,9 @@
                                 @foreach ($projectMenu as $category)
                                     @php($menuId = $mobileMenuIds[$loop->index] ?? 'ProjectCategory'.$category->id.'V')
                                         <li  class="offcanvas__sub_menu_li">
+                                            @if ($category->children->isEmpty())
+                                            <a  href="{{ $category->href() }}" aria-label="Business Category" class="offcanvas__sub_menu_item">{{ $category->title }}</a>
+                                            @else
                                             <a  href="javascript:void(0)" aria-label="Business Category" class="offcanvas__sub_menu_item" onclick="$('#{{ $menuId }}btn').trigger('click')">{{ $category->title }}</a>
                                             <ul  class="offcanvas__sub_menu" id="{{ $menuId }}">
                                                 @foreach ($category->children as $project)
@@ -216,6 +221,7 @@
                                                 @endforeach
                                             </ul>
                                             <button  class="offcanvas__sub_menu_toggle" id="{{ $menuId }}btn" aria-label="{{ $category->title }} Button"></button>
+                                            @endif
                                         </li>
                                 @endforeach
                         </ul>

@@ -7,9 +7,10 @@ use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    public function home(): View
+    public function home(SiteContent $site): View
     {
-        return $this->render('index', 'home');
+        return $this->render('index', 'home')
+            ->with('gallery', $site->page('gallery')->section('images'));
     }
 
     public function about(): View
@@ -20,6 +21,11 @@ class PageController extends Controller
     public function sunwave(): View
     {
         return $this->render('projects.sunwave', 'sunwave');
+    }
+
+    public function condominium(): View
+    {
+        return $this->render('projects.condominium', 'condominium');
     }
 
     public function projectDetail(): View

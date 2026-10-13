@@ -12,6 +12,7 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/', 'home');
     Route::get('/aboutus', 'about');
     Route::get('/project/hotel/sunwave', 'sunwave');
+    Route::get('/project/condominium', 'condominium');
     Route::get('/project-detail', 'projectDetail');
     Route::get('/gallery', 'gallery');
     Route::get('/contact', 'contact');

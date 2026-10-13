@@ -1,0 +1,29 @@
+Photos from Wikimedia Commons. file	source	license	author
+bijoyer-char-1.jpg	https://commons.wikimedia.org/wiki/File:%E0%A6%9A%E0%A6%B0_%E0%A6%AC%E0%A6%BF%E0%A6%9C%E0%A6%AF%E0%A6%BC(%E0%A6%A6-).jpeg	CC0	Rasal Lia
+bijoyer-char-2.jpg	https://commons.wikimedia.org/wiki/File:%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A6%BF%E0%A6%B0_%E0%A6%9A%E0%A6%BF%E0%A6%A4%E0%A7%8D%E0%A6%B0-_%E0%A6%9A%E0%A6%B0_%E0%A6%AC%E0%A6%BF%E0%A6%9C%E0%A6%AF%E0%A6%BC.jpeg	CC0	রাসেল লিয়া
+jhau-bon-1.jpg	https://commons.wikimedia.org/wiki/File:View_from_the_Jhau_bon_at_Kuakata_beach.jpg	CC BY 3.0	Lonely Explorer
+jhau-bon-2.jpg	https://commons.wikimedia.org/wiki/File:Tree-in_Kuakata_Bangladesh_1.jpg	CC BY-SA 3.0	Salahuddin66
+fatrar-bon-1.jpg	https://commons.wikimedia.org/wiki/File:%E0%A6%AB%E0%A6%BE%E0%A6%A4%E0%A6%B0%E0%A6%BE_%E0%A6%AC%E0%A6%A8.jpg	CC BY-SA 4.0	Rasal Lia
+fatrar-bon-2.jpg	https://commons.wikimedia.org/wiki/File:%E0%A6%AB%E0%A6%BE%E0%A6%A4%E0%A6%B0%E0%A6%BE%E0%A6%B0_%E0%A6%AC%E0%A6%A8,_%E0%A6%95%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%87%E0%A6%B2.jpg	CC BY-SA 4.0	Rasal Lia
+fatrar-bon-3.jpg	https://commons.wikimedia.org/wiki/File:%E0%A6%AB%E0%A6%BE%E0%A6%A4%E0%A6%B0%E0%A6%BE%E0%A6%B0_%E0%A6%AC%E0%A6%A8,_%E0%A6%9F%E0%A7%81%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A7%8D%E0%A6%9F_%E0%A6%B8%E0%A7%8D%E0%A6%AA%E0%A6%9F.jpg	CC BY-SA 4.0	Rasal Lia
+fatrar-bon-4.jpg	https://commons.wikimedia.org/wiki/File:%E0%A6%AB%E0%A6%BE%E0%A6%A4%E0%A6%BE%E0%A6%B0_%E0%A6%AC%E0%A6%A8,%E0%A6%AC%E0%A6%A8_%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%97.jpg	CC BY-SA 4.0	Rasal Lia
+red-crab-1.jpg	https://commons.wikimedia.org/wiki/File:Red_crab_Kuakata.jpg	CC BY-SA 4.0	Hemel
+red-crab-2.jpg	https://commons.wikimedia.org/wiki/File:Pattern_made_by_crabs.jpg	CC BY-SA 4.0	Nahin Bin Kaysar
+red-crab-3.jpg	https://commons.wikimedia.org/wiki/File:Crab-House-in_Kuakata_Bangladesh.jpg	CC BY-SA 3.0	Salahuddin66
+lebur-bon-1.jpg	https://commons.wikimedia.org/wiki/File:Mangrove_Forest_in_Kuakata_Sea_Beach_Patuakhali_Bangladesh.JPG	CC BY 3.0	Shahnoor Habib Munmun
+lebur-bon-2.jpg	https://commons.wikimedia.org/wiki/File:Mangrove_forest_at_kuakata.jpg	CC BY-SA 4.0	Mahjuja Islam
+lebur-bon-3.jpg	https://commons.wikimedia.org/wiki/File:Mangrove_Forest_in_Kuakata_Sea_Beach_Patuakhali_Bangladesh_(3).JPG	CC BY 3.0	Shahnoor Habib Munmun
+shutki-polli-1.jpg	https://commons.wikimedia.org/wiki/File:Kuakata--Fish.jpg	CC BY-SA 4.0	Reporternayem
+shutki-polli-2.jpg	https://commons.wikimedia.org/wiki/File:Dried_fish_processing.JPG	CC BY-SA 3.0	Kmonsoor
+rakhine-polli-1.jpg	https://commons.wikimedia.org/wiki/File:Kuakata_Buddhist_Temple.jpg	CC BY-SA 4.0	Tuhin
+rakhine-polli-2.jpg	https://commons.wikimedia.org/wiki/File:Knitting_by_Rakhines.JPG	CC BY-SA 4.0	Al-Amin Badal
+rakhine-polli-3.jpg	https://commons.wikimedia.org/wiki/File:Rakhaine_Handloom_Weaver.jpg	CC0	Anaumhassan2014
+chakma-polli-1.jpg	https://commons.wikimedia.org/wiki/File:Buddha_statue_of_Srimangal_BuddhaBihar,_Kuakata.jpg	CC BY-SA 4.0	Md. Rayan Alam Rifat
+chakma-polli-2.jpg	https://commons.wikimedia.org/wiki/File:Sima_Buddhist_Temple_in_Kuakata.jpg	CC BY-SA 4.0	Sajid Mahamud
+gangamati-1.jpg	https://commons.wikimedia.org/wiki/File:%E0%A6%95%E0%A7%81%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%95%E0%A6%BE%E0%A6%9F%E0%A6%BE_%E0%A6%97%E0%A6%99%E0%A7%8D%E0%A6%97%E0%A6%BE%E0%A6%AE%E0%A6%A4%E0%A6%BF%E0%A6%B0_%E0%A6%9A%E0%A6%B0.jpg	CC BY-SA 4.0	Ar Himel35
+gangamati-2.jpg	https://commons.wikimedia.org/wiki/File:%E2%80%9C%E0%A6%97%E0%A6%99%E0%A7%8D%E0%A6%97%E0%A6%BE%E0%A6%AE%E0%A6%A4%E0%A6%BF%E0%A6%B0_%E0%A6%9A%E0%A6%B0%E0%A7%87%E0%A6%B0_%E0%A6%B8%E0%A7%87%E0%A6%87_%E0%A6%B8%E0%A6%95%E0%A6%BE%E0%A6%B2%E2%80%9D.jpg	CC BY-SA 4.0	Afsana Konok
+gangamati-3.jpg	https://commons.wikimedia.org/wiki/File:Sunrise_point,_Kuakata.jpg	CC BY-SA 4.0	Mahjuja Islam
+kuakata-char-1.jpg	https://commons.wikimedia.org/wiki/File:Kuakata_a_panoramic_sea_beach.jpg	CC BY-SA 4.0	Asaduzzaman
+kuakata-char-2.jpg	https://commons.wikimedia.org/wiki/File:Sunsets_at_Kuakata_Sea_Beach.jpg	CC BY-SA 4.0	Yahya
+kuakata-char-3.jpg	https://commons.wikimedia.org/wiki/File:Pristine_beach_of_Kuakata,_Bangladesh.jpg	CC BY-SA 4.0	Dhaka rider
+kuakata-char-4.jpg	https://commons.wikimedia.org/wiki/File:Sunrise_at_Kuakata_beach,_Bangladesh.jpg	CC BY-SA 4.0	Lonely Explorer

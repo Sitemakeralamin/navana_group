@@ -34,7 +34,7 @@
             <div class="side_letter1">
                 <div class="side_text1">
                     <a href="{{ $layout->section('contact')->href() }}" target="_blank" aria-label="Click to Contact Whatsapp">
-                        <img src="{{asset('assets/whatsapp.webp')}}" alt="Nanova-group-whatsapp">
+                        <img src="{{asset('assets/whatsapp.webp')}}" alt="Nanova-commercial-whatsapp">
                     </a>
                 </div>
             </div>

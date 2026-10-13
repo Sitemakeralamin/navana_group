@@ -2,45 +2,66 @@
 
 @section('title', 'Dashboard')
 
+@section('actions')
+    <a href="{{ url('/') }}" target="_blank" rel="noopener" class="btn btn-outline-secondary">Open website</a>
+@endsection
+
 @section('content')
-    <div class="panel">
+    <dl class="summary reveal">
+        <div>
+            <dt>Pages</dt>
+            <dd>{{ count($pages) }}</dd>
+        </div>
+        <div>
+            <dt>Sections</dt>
+            <dd>{{ $sectionTotal }}</dd>
+        </div>
+        <div>
+            <dt>Content items</dt>
+            <dd>{{ $itemTotal }}</dd>
+        </div>
+        <div>
+            <dt>Last change</dt>
+            <dd class="summary-date">
+                {{ $lastEdit ? \Illuminate\Support\Carbon::parse($lastEdit)->diffForHumans() : 'No changes yet' }}
+            </dd>
+        </div>
+    </dl>
+
+    <div class="panel reveal">
         <div class="panel-head">
             <h2>Pages</h2>
         </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Page</th>
-                        <th class="num">Sections</th>
-                        <th class="num">Items</th>
-                        <th>Last edited</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($pages as $key => $page)
-                        <tr>
-                            <td><a href="{{ route('admin.pages.show', $key) }}">{{ $page['label'] }}</a></td>
-                            <td class="num">{{ count($page['sections']) }}</td>
-                            <td class="num">{{ $itemCounts[$key] ?? 0 }}</td>
-                            <td class="muted">
-                                {{ isset($lastEdits[$key]) ? \Illuminate\Support\Carbon::parse($lastEdits[$key])->format('j M Y, g:i a') : 'Never' }}
-                            </td>
-                            <td class="actions">
-                                <a href="{{ url($page['url']) }}" target="_blank" rel="noopener" class="btn btn-sm btn-link">View</a>
-                                <a href="{{ route('admin.pages.show', $key) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        <ul class="page-list">
+            @foreach ($pages as $key => $page)
+                <li class="page-row">
+                    <a href="{{ route('admin.pages.show', $key) }}" class="page-row-link">
+                        <span @class(['page-thumb', 'page-thumb-logo' => $key === 'layout'])>
+                            @if ($previews[$key] ?? null)
+                                <img src="{{ $previews[$key] }}" alt="" loading="lazy">
+                            @endif
+                        </span>
+                        <span class="page-name">
+                            {{ $page['label'] }}
+                            <small>{{ $page['url'] }}</small>
+                        </span>
+                        <span class="page-meta">
+                            <span>{{ count($page['sections']) }} {{ \Illuminate\Support\Str::plural('section', count($page['sections'])) }}</span>
+                            <span>{{ $itemCounts[$key] ?? 0 }} {{ \Illuminate\Support\Str::plural('item', $itemCounts[$key] ?? 0) }}</span>
+                        </span>
+                        <span class="page-edited">
+                            {{ isset($lastEdits[$key]) ? 'Edited '.\Illuminate\Support\Carbon::parse($lastEdits[$key])->diffForHumans() : 'Not edited yet' }}
+                        </span>
+                    </a>
+                    <a href="{{ url($page['url']) }}" target="_blank" rel="noopener" class="page-view">View</a>
+                </li>
+            @endforeach
+        </ul>
     </div>
 
-    <div class="panel">
+    <div class="panel reveal">
         <div class="panel-head">
-            <h2>Recently changed items</h2>
+            <h2>Recently changed</h2>
         </div>
         @if ($recent->isEmpty())
             <p class="panel-body muted mb-0">No changes yet</p>

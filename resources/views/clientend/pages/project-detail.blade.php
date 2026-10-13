@@ -38,102 +38,163 @@
                 text-align:left;
             }
         }
-/* Master Layout Split */
-
-
-/* Master Container: Fixed Viewport Box */
-.viewer-container {
-  display: flex;
+.plan-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 24px;
   width: 100%;
-  height: 100vh; /* Locks layout height perfectly to the view window */
-  align-items: stretch; /* Forces sidebar to perfectly match main-viewer height */
+  padding: 24px;
+  align-items: start;
 }
 
-/* 20% Left Sidebar - SCROLLABLE CONFIGURATION */
-.thumbnail-sidebar {
-  width: 20%;
-  height: 100%; /* Spans full height of the parent container */
-  background: #1e1e1e;
-  padding: 15px;
-  
-  /* Enables independent scrolling for large list sizes */
-  overflow-y: scroll; 
-  overflow-x: hidden;
-  
+.book-wrap {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  border-right: 2px solid #2d2d2d;
+  gap: 12px;
 }
 
-/* Customized Sidebar Scrollbar Track Elements */
-.thumbnail-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.thumbnail-sidebar::-webkit-scrollbar-track {
-  background: #151515;
-}
-
-.thumbnail-sidebar::-webkit-scrollbar-thumb {
-  background: #3a3a3a;
-  border-radius: 4px;
-}
-
-.thumbnail-sidebar::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Individual Thumbnail Content Modules */
-.thumb-wrapper {
+.book {
+  position: relative;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #252525;
-  border: 2px solid transparent;
-  border-radius: 6px;
-  overflow: hidden;
+  aspect-ratio: 2480 / 1755;
+  perspective: 2200px;
+}
+
+.book::before {
+  content: "";
+  position: absolute;
+  top: 2%;
+  bottom: 2%;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 0;
+}
+
+.book__leaf {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
   cursor: pointer;
-  flex-shrink: 0; /* Prevents thumbnails from smashing or collapsing */
-  transition: border-color 0.2s, background 0.2s;
 }
 
-.thumb-wrapper:hover {
-  border-color: #555;
-  background: #2c2c2c;
+.book__leaf.is-turned {
+  transform: rotateY(-180deg);
 }
 
-.thumb-wrapper.active {
-  border-color: #007bff;
-  background: #2a2a2a;
+.book__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fff;
+  border: 1px solid #d8d3c8;
+  overflow: hidden;
 }
 
-.thumb {
+.book__face--front {
+  border-radius: 0 6px 6px 0;
+  box-shadow: inset 8px 0 14px -10px rgba(0, 0, 0, 0.45), 4px 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.book__face--back {
+  transform: rotateY(180deg);
+  border-radius: 6px 0 0 6px;
+  background: #f5f2ea;
+  box-shadow: inset -8px 0 14px -10px rgba(0, 0, 0, 0.45), -4px 4px 12px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12px;
+  color: #8a8478;
+  font-size: 12px;
+}
+
+.book__face img {
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  height: calc(100% - 30px);
+  object-fit: contain;
   display: block;
 }
 
-/* Thumbnail Subtitle Styling */
-.thumb-caption {
-  color: #aaa;
-  font-size: 11px;
-  padding: 6px 8px;
+.book__caption {
+  height: 30px;
+  line-height: 30px;
   text-align: center;
-  word-break: break-all;
-  border-top: 1px solid #2d2d2d;
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  border-top: 1px solid #eee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 6px;
 }
 
-.thumb-wrapper.active .thumb-caption {
+.book__cover {
+  background: #12324f;
   color: #fff;
-  font-weight: bold;
+  border-color: #0c2338;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
 }
 
-/* 80% Right Canvas Area */
+.book__cover h2 {
+  color: #fff;
+  font-size: 22px;
+  line-height: 1.3;
+  margin: 0 0 8px;
+}
+
+.book__cover p {
+  color: #9fc3e0;
+  font-size: 13px;
+  margin: 0;
+}
+
+.book__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.book__controls button {
+  background: #12324f;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.book__controls button:hover:not(:disabled) {
+  background: #00aeef;
+}
+
+.book__controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.book__counter {
+  font-size: 14px;
+  color: #444;
+  font-variant-numeric: tabular-nums;
+}
+
 .main-viewer {
-  width: 80%;
-  height: 100%;
+  height: 80vh;
   background: #111;
   overflow: hidden;
   position: relative;
@@ -141,13 +202,13 @@
   justify-content: center;
   align-items: center;
   cursor: grab;
+  border-radius: 6px;
 }
 
 .main-viewer:active {
   cursor: grabbing;
 }
 
-/* Floating Controls Layer Block */
 .zoom-controls {
   position: absolute;
   top: 20px;
@@ -180,7 +241,6 @@
   border-color: #007bff;
 }
 
-/* Main Display Asset */
 #displayImage {
   max-width: 90%;
   max-height: 80%;
@@ -191,7 +251,6 @@
   transition: transform 0.05s ease-out;
 }
 
-/* Main Viewer Bottom Fixed Subtitle Overlay */
 .main-caption {
   position: absolute;
   bottom: 0;
@@ -207,6 +266,18 @@
   z-index: 5;
   pointer-events: none;
 }
+
+@media (max-width: 991px) {
+  .plan-layout {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .main-viewer {
+    height: 60vh;
+  }
+}
+
 .pagination {
         display: flex;
         justify-content: center;
@@ -242,34 +313,50 @@
 @endsection
 @section('main')
     @php
-        $plans = $content->section('floor_plans')->visibleItems();
+        $planSection = $content->section('floor_plans');
+        $plans = $planSection->visibleItems();
         $firstPlan = $plans->first();
     @endphp
     <section class="branch-section pb-0">
         <div class="container-fluid" style="display: flex; align-items: center; justify-content: center; padding-top: 120px;">
             <div class="branch__container p-0">
-                <div class="viewer-container">
-                  <!-- Left Side: Thumbnails (20%) -->
-                  <div class="thumbnail-sidebar">
-                    @foreach ($plans as $plan)
-                        <div class="thumb-wrapper{{ $loop->first ? ' active' : '' }}">
-                            <img src="{{ $plan->src() }}" class="thumb" alt="{{ $plan->title }}">
-                            <div class="thumb-caption">{{ $plan->title }}</div>
+                <div class="plan-layout">
+                    <div class="book-wrap">
+                        <div class="book" id="book">
+                            <div class="book__leaf" data-caption="{{ $firstPlan?->title }}" data-src="{{ $firstPlan?->src() }}">
+                                <div class="book__face book__face--front book__cover">
+                                    <h2>{{ $planSection->title ?: 'Floor Plans' }}</h2>
+                                    <p>{{ $plans->count() }} pages</p>
+                                </div>
+                                <div class="book__face book__face--back"></div>
+                            </div>
+                            @foreach ($plans as $plan)
+                                <div class="book__leaf" data-caption="{{ $plan->title }}" data-src="{{ $plan->src() }}">
+                                    <div class="book__face book__face--front">
+                                        <img src="{{ $plan->src() }}" alt="{{ $plan->title }}" @unless ($loop->first) loading="lazy" @endunless>
+                                        <div class="book__caption">{{ $plan->title }}</div>
+                                    </div>
+                                    <div class="book__face book__face--back">{{ $loop->iteration }}</div>
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
-                  </div>
+                        <div class="book__controls">
+                            <button type="button" id="bookPrev">Previous page</button>
+                            <span class="book__counter" id="bookCounter"></span>
+                            <button type="button" id="bookNext">Next page</button>
+                        </div>
+                    </div>
 
-                  <!-- Right Side: Main Display (80%) -->
-                  <div class="main-viewer" id="mainViewer">
-                     <div class="zoom-controls">
-                          <button id="zoomInBtn" title="Zoom In">+</button>
-                          <button id="zoomOutBtn" title="Zoom Out">−</button>
-                          <button id="resetBtn" title="Reset View">⟲</button>
+                    <div class="main-viewer" id="mainViewer">
+                        <div class="zoom-controls">
+                            <button id="zoomInBtn" title="Zoom In">+</button>
+                            <button id="zoomOutBtn" title="Zoom Out">−</button>
+                            <button id="resetBtn" title="Reset View">⟲</button>
                         </div>
 
-                        <img src="{{ $firstPlan?->src() }}" id="displayImage" alt="Main Display">
+                        <img src="{{ $firstPlan?->src() }}" id="displayImage" alt="{{ $firstPlan?->title }}">
                         <div class="main-caption" id="mainCaption">{{ $firstPlan?->title }}</div>
-                  </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -280,8 +367,6 @@
 const mainViewer = document.getElementById('mainViewer');
 const displayImage = document.getElementById('displayImage');
 const mainCaption = document.getElementById('mainCaption');
-const thumbWrappers = document.querySelectorAll('.thumb-wrapper');
-
 const zoomInBtn = document.getElementById('zoomInBtn');
 const zoomOutBtn = document.getElementById('zoomOutBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -297,19 +382,54 @@ const MIN_SCALE = 0.4;
 const MAX_SCALE = 6;
 const ZOOM_SPEED = 0.15;
 
-thumbWrappers.forEach(wrapper => {
-  wrapper.addEventListener('click', function() {
-    thumbWrappers.forEach(w => w.classList.remove('active'));
-    this.classList.add('active');
-    
-    const targetImg = this.querySelector('.thumb');
-    const targetCaptionText = this.querySelector('.thumb-caption').innerText;
-    
-    displayImage.src = targetImg.src;
-    mainCaption.innerText = targetCaptionText;
-    
-    resetTransforms();
+const book = document.getElementById('book');
+const leaves = Array.from(book.querySelectorAll('.book__leaf'));
+const prevBtn = document.getElementById('bookPrev');
+const nextBtn = document.getElementById('bookNext');
+const counter = document.getElementById('bookCounter');
+let turned = 0;
+
+function stackLeaves() {
+  leaves.forEach((leaf, i) => {
+    leaf.style.zIndex = i < turned ? i + 1 : leaves.length - i;
   });
+}
+
+function showInViewer(leaf) {
+  if (!leaf.dataset.src) return;
+  displayImage.src = leaf.dataset.src;
+  displayImage.alt = leaf.dataset.caption;
+  mainCaption.innerText = leaf.dataset.caption;
+  resetTransforms();
+}
+
+function refreshBook() {
+  prevBtn.disabled = turned === 0;
+  nextBtn.disabled = turned >= leaves.length - 1;
+  counter.innerText = turned === 0 ? 'Cover' : `Page ${turned} of ${leaves.length - 1}`;
+  showInViewer(leaves[Math.min(turned, leaves.length - 1)]);
+}
+
+// The moving leaf has to stay above both stacks until it lands, then the stacks are re-ordered.
+function turnTo(target) {
+  if (target < 0 || target > leaves.length - 1 || target === turned) return;
+
+  const leaf = leaves[target > turned ? turned : target];
+  leaf.style.zIndex = leaves.length * 2;
+  leaf.classList.toggle('is-turned', target > turned);
+  turned = target;
+  leaf.addEventListener('transitionend', stackLeaves, { once: true });
+  refreshBook();
+}
+
+leaves.forEach((leaf, i) => {
+  leaf.addEventListener('click', () => turnTo(i < turned ? i : i + 1));
+});
+prevBtn.addEventListener('click', () => turnTo(turned - 1));
+nextBtn.addEventListener('click', () => turnTo(turned + 1));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') turnTo(turned + 1);
+  if (e.key === 'ArrowLeft') turnTo(turned - 1);
 });
 
 function updateTransform() {
@@ -372,6 +492,9 @@ window.addEventListener('mouseup', () => {
 mainViewer.addEventListener('mouseleave', () => {
   isDragging = false;
 });
+
+stackLeaves();
+refreshBook();
 
     </script>
 

@@ -24,5 +24,10 @@ class AppServiceProvider extends ServiceProvider
         View::composer('clientend.*', function ($view) {
             $view->with('layout', $this->app->make(SiteContent::class)->page('layout'));
         });
+
+        View::composer('admin.layouts.app', function ($view) {
+            $logo = $this->app->make(SiteContent::class)->page('layout')->section('brand')->src();
+            $view->with('brandLogo', $logo ?: asset('assets/logo.png'));
+        });
     }
 }

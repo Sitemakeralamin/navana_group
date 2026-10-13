@@ -38,11 +38,41 @@ class DashboardController extends Controller
             ->limit(10)
             ->get();
 
+        $pages = $schema->pages();
+
         return view('admin.dashboard', [
-            'pages' => $schema->pages(),
+            'pages' => $pages,
+            'previews' => $this->previews(array_keys($pages)),
             'itemCounts' => $itemsPerPage,
             'lastEdits' => $lastEdits,
+            'lastEdit' => $lastEdits->max(),
+            'sectionTotal' => collect($pages)->sum(fn (array $page) => count($page['sections'])),
+            'itemTotal' => $itemsPerPage->sum(),
             'recent' => $recent,
         ]);
+    }
+
+    /**
+     * First image found on each page, used as its thumbnail.
+     */
+    private function previews(array $pages): array
+    {
+        $sections = PageSection::with(['items' => fn ($query) => $query->whereNotNull('image')->where('is_active', true)])
+            ->whereIn('page', $pages)
+            ->orderBy('id')
+            ->get()
+            ->groupBy('page');
+
+        $previews = [];
+
+        foreach ($sections as $page => $pageSections) {
+            $source = $pageSections
+                ->map(fn (PageSection $section) => $section->image ? $section : $section->items->first())
+                ->first(fn ($candidate) => $candidate !== null);
+
+            $previews[$page] = $source?->src();
+        }
+
+        return $previews;
     }
 }

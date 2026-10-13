@@ -28,66 +28,6 @@ return [
 
     'pages' => [
 
-        'layout' => [
-            'label' => 'Header & footer',
-            'url' => '/',
-            'sections' => [
-                'brand' => [
-                    'label' => 'Logo',
-                    'fields' => ['image' => $image('Logo'), 'favicon' => $image('Browser tab icon')],
-                ],
-                'project_menu' => [
-                    'label' => 'Our Projects menu',
-                    'items' => [
-                        'label' => 'Category',
-                        'fields' => ['title' => $text('Category name')],
-                        'children' => [
-                            'label' => 'Project link',
-                            'fields' => ['title' => $text('Project name'), 'link_url' => $url('Link')],
-                        ],
-                    ],
-                ],
-                'contact' => [
-                    'label' => 'Footer contact',
-                    'fields' => [
-                        'body' => $area('Address'),
-                        'hotline' => $text('Hotline'),
-                        'whatsapp' => $text('WhatsApp number'),
-                        'link_url' => $url('WhatsApp link'),
-                        'image' => $image('Payment methods image'),
-                        'copyright' => $text('Copyright line'),
-                        'powered_by' => $text('Powered by'),
-                        'powered_by_url' => $url('Powered by link'),
-                    ],
-                ],
-                'locations' => [
-                    'label' => 'Footer locations',
-                    'items' => ['label' => 'Location', 'fields' => ['title' => $text('Name'), 'link_url' => $url('Google Maps link')]],
-                ],
-                'social' => [
-                    'label' => 'Social links',
-                    'items' => [
-                        'label' => 'Social link',
-                        'fields' => [
-                            'title' => $text('Platform'),
-                            'link_url' => $url('Profile link'),
-                            'icon' => $text('Font Awesome class'),
-                            'color' => $text('Colour'),
-                        ],
-                    ],
-                ],
-                'seo' => [
-                    'label' => 'Search & sharing',
-                    'fields' => [
-                        'title' => $text('Meta title'),
-                        'body' => $area('Meta description'),
-                        'keywords' => $area('Keywords'),
-                        'image' => $image('Share image'),
-                    ],
-                ],
-            ],
-        ],
-
         'home' => [
             'label' => 'Home',
             'url' => '/',
@@ -105,7 +45,7 @@ return [
                     'fields' => [
                         'title' => $text('Heading'),
                         'body' => $area('Text'),
-                        'image' => $image('Group logo'),
+                        'image' => $image('Company logo'),
                         'button_text' => $text('Partners label'),
                     ],
                 ],
@@ -148,10 +88,9 @@ return [
                     'fields' => ['title' => $text('Heading')],
                     'items' => ['label' => 'Benefit', 'fields' => ['image' => $image('Icon image'), 'title' => $area('Text')]],
                 ],
-                'team' => [
-                    'label' => 'Our team',
-                    'fields' => ['title' => $text('Heading')],
-                    'items' => ['label' => 'Member', 'fields' => ['image' => $image('Photo'), 'title' => $text('Name'), 'subtitle' => $text('Designation')]],
+                'project_gallery' => [
+                    'label' => 'Our projects (photos come from the Gallery page)',
+                    'fields' => ['title' => $text('Heading'), 'button_text' => $text('Gallery button text')],
                 ],
             ],
         ],
@@ -161,13 +100,22 @@ return [
             'url' => '/aboutus',
             'sections' => [
                 'intro' => [
-                    'label' => 'We are Nanova Groups',
+                    'label' => 'We are Nanova Commercial',
                     'fields' => ['title' => $text('Heading'), 'body' => $area('Text'), 'image' => $image()],
                 ],
                 'sister_concern' => [
                     'label' => 'Sister concern',
                     'fields' => ['title' => $text('Heading'), 'image' => $image('Logo')],
-                    'items' => ['label' => 'Concern', 'fields' => ['title' => $text('Name'), 'subtitle' => $text('Tagline')]],
+                    'items' => [
+                        'label' => 'Concern',
+                        'fields' => [
+                            'title' => $text('Name'),
+                            'phone' => $text('Phone'),
+                            'email' => $text('Email'),
+                            'website' => $text('Website'),
+                            'address' => $text('Address'),
+                        ],
+                    ],
                 ],
                 'mission' => [
                     'label' => 'Our mission',
@@ -211,6 +159,17 @@ return [
                         'popup_image' => $image('Learn More image'),
                     ],
                 ],
+                'places' => [
+                    'label' => 'Important places (slider beside the introduction)',
+                    'items' => [
+                        'label' => 'Place',
+                        'fields' => ['title' => $text('Place name')],
+                        'children' => [
+                            'label' => 'Photo',
+                            'fields' => ['image' => $image('Photo'), 'title' => $text('Caption')],
+                        ],
+                    ],
+                ],
                 'ownership' => [
                     'label' => 'Category of ownership',
                     'fields' => [
@@ -242,6 +201,7 @@ return [
             'sections' => [
                 'floor_plans' => [
                     'label' => 'Floor plans',
+                    'fields' => ['title' => $text('Book cover title')],
                     'items' => ['label' => 'Floor plan', 'fields' => ['image' => $image('Plan image'), 'title' => $text('Caption')]],
                 ],
             ],
@@ -255,6 +215,42 @@ return [
                     'label' => 'Gallery',
                     'fields' => ['title' => $text('Heading')],
                     'items' => ['label' => 'Photo', 'fields' => ['image' => $image('Photo'), 'title' => $text('Caption')]],
+                ],
+            ],
+        ],
+
+        'condominium' => [
+            'label' => 'Nanova Condominium',
+            'url' => '/project/condominium',
+            'sections' => [
+                'intro' => [
+                    'label' => 'Introduction',
+                    'fields' => [
+                        'title' => $text('Project name'),
+                        'subtitle' => $text('Status'),
+                        'body' => $area('Description'),
+                        'image' => $image('Main image'),
+                        'image_caption' => $text('Image caption'),
+                        'location' => $text('Location'),
+                    ],
+                ],
+                'facts' => [
+                    'label' => 'Project facts',
+                    'items' => ['label' => 'Fact', 'fields' => ['title' => $text('Label'), 'subtitle' => $text('Value')]],
+                ],
+                'features' => [
+                    'label' => 'Features',
+                    'fields' => ['title' => $text('Heading')],
+                    'items' => ['label' => 'Feature', 'fields' => ['title' => $text('Name'), 'body' => $area('Text')]],
+                ],
+                'contact' => [
+                    'label' => 'Booking contact',
+                    'fields' => [
+                        'title' => $text('Heading'),
+                        'phone' => $text('Phone'),
+                        'email' => $text('Email'),
+                        'address' => $text('Address'),
+                    ],
                 ],
             ],
         ],
@@ -303,6 +299,65 @@ return [
                 'form' => [
                     'label' => 'Contact form',
                     'fields' => ['title' => $text('Heading')],
+                ],
+            ],
+        ],
+        'layout' => [
+            'label' => 'Header & footer',
+            'url' => '/',
+            'sections' => [
+                'brand' => [
+                    'label' => 'Logo',
+                    'fields' => ['image' => $image('Logo'), 'favicon' => $image('Browser tab icon')],
+                ],
+                'project_menu' => [
+                    'label' => 'Our Projects menu',
+                    'items' => [
+                        'label' => 'Category',
+                        'fields' => ['title' => $text('Category name'), 'link_url' => $url('Link (used when the category has no project links)')],
+                        'children' => [
+                            'label' => 'Project link',
+                            'fields' => ['title' => $text('Project name'), 'link_url' => $url('Link')],
+                        ],
+                    ],
+                ],
+                'contact' => [
+                    'label' => 'Footer contact',
+                    'fields' => [
+                        'body' => $area('Address'),
+                        'hotline' => $text('Hotline'),
+                        'whatsapp' => $text('WhatsApp number'),
+                        'link_url' => $url('WhatsApp link'),
+                        'image' => $image('Payment methods image'),
+                        'copyright' => $text('Copyright line'),
+                        'powered_by' => $text('Powered by'),
+                        'powered_by_url' => $url('Powered by link'),
+                    ],
+                ],
+                'locations' => [
+                    'label' => 'Footer locations',
+                    'items' => ['label' => 'Location', 'fields' => ['title' => $text('Name'), 'link_url' => $url('Google Maps link')]],
+                ],
+                'social' => [
+                    'label' => 'Social links',
+                    'items' => [
+                        'label' => 'Social link',
+                        'fields' => [
+                            'title' => $text('Platform'),
+                            'link_url' => $url('Profile link'),
+                            'icon' => $text('Font Awesome class'),
+                            'color' => $text('Colour'),
+                        ],
+                    ],
+                ],
+                'seo' => [
+                    'label' => 'Search & sharing',
+                    'fields' => [
+                        'title' => $text('Meta title'),
+                        'body' => $area('Meta description'),
+                        'keywords' => $area('Keywords'),
+                        'image' => $image('Share image'),
+                    ],
                 ],
             ],
         ],

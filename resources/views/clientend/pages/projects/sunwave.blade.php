@@ -46,21 +46,35 @@
         border-radius: 8px;
         }
 
-        .mySlides {
-        display: none;
+        .slideshow-container {
+        aspect-ratio: 16 / 9;
+        background: #0f1d2b;
         }
 
-        /* Standardized image size */
+        .mySlides {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        filter: blur(14px);
+        transform: scale(1.04);
+        transition: opacity 0.9s ease, filter 0.9s ease, transform 0.9s ease;
+        }
+
+        .mySlides.is-active {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+        z-index: 1;
+        }
+
         .mySlides img {
         width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
+        height: 100%;
         object-fit: cover;
         vertical-align: middle;
-        cursor: zoom-in; /* Shows the user the image is clickable */
+        cursor: zoom-in;
         }
 
-        /* Next & previous buttons */
         .prev, .next {
         cursor: pointer;
         position: absolute;
@@ -83,7 +97,6 @@
         background-color: rgba(0, 0, 0, 0.8);
         }
 
-        /* Caption text */
         .slide-text {
         color: #f2f2f2;
         font-size: 15px;
@@ -95,7 +108,6 @@
         background-color: rgba(0, 0, 0, 0.5);
         }
 
-        /* Dots */
         .dot-container {
         text-align: center;
         padding: 10px;
@@ -103,28 +115,99 @@
 
         .dot {
         cursor: pointer;
-        height: 12px;
-        width: 12px;
+        height: 10px;
+        width: 10px;
         margin: 0 4px;
+        border: 0;
+        padding: 0;
         background-color: #bbb;
         border-radius: 50%;
         display: inline-block;
-        transition: background-color 0.6s ease;
+        transition: background-color 0.3s ease;
         }
 
-        .active, .dot:hover {
-        background-color: #717171;
+        .dot.is-active, .dot:hover {
+        background-color: #00aeef;
         }
 
-        /* Fade animation */
-        .fade {
-        animation-name: fade;
-        animation-duration: 1.5s;
+        .places {
+        position: relative;
         }
 
-        @keyframes fade {
-        from {opacity: .4}
-        to {opacity: 1}
+        .places__tabs {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        z-index: 3;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        }
+
+        .places__tab {
+        border: 0;
+        background: rgba(255, 255, 255, 0.88);
+        color: #1b3a5c;
+        font-size: 12px;
+        padding: 4px 9px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .places__tab:hover {
+        background: #fff;
+        }
+
+        .places__tab.is-active {
+        background: #00aeef;
+        color: #fff;
+        }
+
+        .places__stage {
+        position: relative;
+        height: 340px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #0f1d2b;
+        }
+
+        @media (max-width: 991px) {
+        .places__stage {
+            height: 300px;
+        }
+        }
+
+        .places__slide {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        opacity: 0;
+        transition: opacity 1.2s ease;
+        }
+
+        .places__slide.is-active {
+        opacity: 1;
+        z-index: 1;
+        }
+
+        .places__slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        }
+
+        .places__caption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 10px 14px;
+        color: #fff;
+        font-size: 15px;
+        margin: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
         }
 
         /* ==========================================================================
@@ -612,6 +695,7 @@
 @section('main')
 @php
     $intro = $content->section('intro');
+    $places = $content->section('places')->visibleItems()->filter(fn ($place) => $place->children->isNotEmpty())->values();
     $ownership = $content->section('ownership');
     $photos = $content->section('photos');
     $videos = $content->section('videos');
@@ -682,13 +766,31 @@
 
                     </div>
                     <div class="col-lg-7">
+                        @if ($places->isEmpty())
                         <div class="aboutus__img text-center">
-                            <img alt="new" class="lazyload" src="{{asset('assets/_blank.webp')}}"
+                            <img alt="{{ $intro->title }}" class="lazyload" src="{{asset('assets/_blank.webp')}}"
                                  data-src="{{ $intro->src() }}" data-sizes="60%" width="200" />
-                            <noscript> <img alt="new" src="{{ $intro->src() }}" width="200" /> </noscript>
-
+                            <noscript> <img alt="{{ $intro->title }}" src="{{ $intro->src() }}" width="200" /> </noscript>
                         </div>
-
+                        @else
+                        <div class="places" id="places">
+                            <div class="places__tabs">
+                                @foreach ($places as $place)
+                                    <button type="button" class="places__tab{{ $loop->first ? ' is-active' : '' }}" data-place="{{ $loop->index }}">{{ $place->title }}</button>
+                                @endforeach
+                            </div>
+                            <div class="places__stage">
+                                @foreach ($places as $place)
+                                    @foreach ($place->children as $photo)
+                                        <div class="places__slide{{ $loop->parent->first && $loop->first ? ' is-active' : '' }}" data-place="{{ $loop->parent->index }}">
+                                            <img src="{{ $photo->src() }}" alt="{{ $photo->title ?: $place->title }}" loading="lazy">
+                                            <p class="places__caption">{{ $photo->title ?: $place->title }}</p>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -794,24 +896,22 @@
                 <div class="slideshow-container">
 
                 @foreach ($photos->visibleItems() as $photo)
-                <div class="mySlides fade">
-                    <img src="{{ $photo->src() }}" alt="{{ $photo->title }}" onclick="openLightbox(this)">
+                <div class="mySlides{{ $loop->first ? ' is-active' : '' }}">
+                    <img src="{{ $photo->src() }}" alt="{{ $photo->title }}" onclick="openLightbox(this)" @unless ($loop->first) loading="lazy" @endunless>
                     @if ($photo->subtitle)
                     <div class="slide-text">{{ $photo->subtitle }}</div>
                     @endif
                 </div>
                 @endforeach
 
-                <!-- Arrow Navigation -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 </div>
 
-                <!-- Dot Navigation -->
                 <div class="dot-container">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
+                @foreach ($photos->visibleItems() as $photo)
+                <button type="button" class="dot{{ $loop->first ? ' is-active' : '' }}" onclick="currentSlide({{ $loop->iteration }})" aria-label="Photo {{ $loop->iteration }}"></button>
+                @endforeach
                 </div>
 
                 <!-- The Lightbox Modal (Stays hidden until an image is clicked) -->
@@ -871,59 +971,74 @@
 @endsection
 @section('page-script')
 <script>
+        const SLIDE_INTERVAL = 2500;
         let slideIndex = 1;
         let slideTimer;
 
-        // Start the slideshow
         showSlides(slideIndex);
         startAutoPlay();
 
         function startAutoPlay() {
-        // Automatically click "next" every 4 seconds
-        slideTimer = setInterval(() => {
-            plusSlides(1);
-        }, 4000);
+        slideTimer = setInterval(() => plusSlides(1), SLIDE_INTERVAL);
         }
 
+        // Restart the timer after a manual change so the next slide does not follow too soon.
         function resetAutoPlay() {
-        // Clear and restart timer so user interaction doesn't cause fast skipping
         clearInterval(slideTimer);
         startAutoPlay();
         }
 
-        // Next/previous controls
         function plusSlides(n) {
         showSlides(slideIndex += n);
         resetAutoPlay();
         }
 
-        // Dot controls
         function currentSlide(n) {
         showSlides(slideIndex = n);
         resetAutoPlay();
         }
 
         function showSlides(n) {
-        let i;
-        let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("dot");
-        
-        if (n > slides.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = slides.length}
-        
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+        const slides = document.getElementsByClassName("mySlides");
+        const dots = document.querySelectorAll(".dot-container .dot");
+        if (!slides.length) return;
+
+        if (n > slides.length) slideIndex = 1;
+        if (n < 1) slideIndex = slides.length;
+
+        Array.from(slides).forEach((slide, i) => slide.classList.toggle("is-active", i === slideIndex - 1));
+        dots.forEach((dot, i) => dot.classList.toggle("is-active", i === slideIndex - 1));
         }
-        
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
+
+        (function () {
+        const places = document.getElementById("places");
+        if (!places) return;
+
+        const tabs = places.querySelectorAll(".places__tab");
+        const slides = places.querySelectorAll(".places__slide");
+        let current = [];
+        let position = 0;
+        let timer;
+
+        function show(index) {
+            slides.forEach(slide => slide.classList.remove("is-active"));
+            position = (index + current.length) % current.length;
+            current[position].classList.add("is-active");
         }
-        
-        if (slides[slideIndex-1]) {
-            slides[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " active";
+
+        function selectPlace(place) {
+            tabs.forEach(tab => tab.classList.toggle("is-active", tab.dataset.place === place));
+            current = Array.from(slides).filter(slide => slide.dataset.place === place);
+            show(0);
+            clearInterval(timer);
+            if (current.length > 1) {
+                timer = setInterval(() => show(position + 1), 3500);
+            }
         }
-        }
+
+        tabs.forEach(tab => tab.addEventListener("click", () => selectPlace(tab.dataset.place)));
+        selectPlace(tabs[0].dataset.place);
+        })();
 
         // ==========================================================================
         // LIGHTBOX LOGIC (NEW)

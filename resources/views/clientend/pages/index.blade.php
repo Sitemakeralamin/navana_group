@@ -119,6 +119,44 @@
               height:375px !important;
         }
 }
+
+    .project-gallery {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin: 24px 0;
+    }
+
+    .project-gallery__item {
+        display: block;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+    }
+
+    .project-gallery__item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.18s ease;
+    }
+
+    .project-gallery__item:hover img,
+    .project-gallery__item:focus-visible img {
+        transform: scale(1.04);
+    }
+
+    .project-gallery__item:first-child {
+        grid-column: span 2;
+        grid-row: span 2;
+        aspect-ratio: auto;
+    }
+
+    @media (max-width: 767px) {
+        .project-gallery {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+    }
 </style>
 @endsection
 @section('main')
@@ -127,7 +165,8 @@
         $projects = $content->section('projects');
         $whyInvest = $content->section('why_invest');
         $benefits = $content->section('benefits');
-        $team = $content->section('team');
+        $projectGallery = $content->section('project_gallery');
+        $galleryPhotos = $gallery->visibleItems()->take(9);
     @endphp
     <!-- hero slider start -->
         <section class="hero-banner-section">
@@ -388,40 +427,23 @@
         </section>
         <!-- benefits end -->
 
-        <section class="testimonial pb-0 mb-0 mt-30">
-            <div class="container">
-                <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <h2 class="about__title mb-0">{{ $team->title }}</h2>
+        <section class="branch-section pt-0 pb-0 mb-30">
+            <div class="container" style="display: flex; align-items: center; justify-content: center;">
+                <div class="branch__container">
+                    <h2 class="about__title text-center mb-0">{{ $projectGallery->title }}</h2>
+                    <div class="project-gallery">
+                        @foreach ($galleryPhotos as $photo)
+                            <a class="project-gallery__item" data-fancybox="project-gallery" href="{{ $photo->src() }}" data-caption="{{ $photo->title }}">
+                                <img class="lazyload" src="{{ asset('assets/_blank.webp') }}" data-src="{{ $photo->src() }}" alt="{{ $photo->title }}" />
+                                <noscript><img src="{{ $photo->src() }}" alt="{{ $photo->title }}" /></noscript>
+                            </a>
+                        @endforeach
+                    </div>
+                    @if ($projectGallery->value('button_text'))
+                        <div class="text-center">
+                            <a href="{{ url('/gallery') }}" class="btn-small btn-outline--secondary"><span>{{ $projectGallery->value('button_text') }}</span></a>
                         </div>
-                    </div>
-                <div class="row">
-
-                    <div class="col-12">
-                        <ul class="testimonial-slider">
-                            @foreach ($team->visibleItems() as $member)
-                            <li class="test__item">
-                                <div class="testimonial-wrap">
-                                    <div class="author-box">
-                                        @if ($member->image)
-                                        <img alt="new" class="lazyload" src="{{ asset('assets/_blank.webp') }}"
-                                             data-src="{{ $member->src() }}" width="110" height="109.927" style="object-fit: cover; object-position: center top;" />
-                                        <noscript> <img src="{{ $member->src() }}" width="110" height="109.927" style="object-fit: cover; object-position: center top;" /></noscript>
-                                        @endif
-
-                                        <h3 class="author__name">{{ $member->title }}</h3>
-                                        <div class="autho__nfo">
-                                            <p>
-                                                {{ $member->subtitle }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            @endforeach
-
-                        </ul>
-                    </div>
+                    @endif
                 </div>
             </div>
         </section>

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <title>@yield('title') | Nanova Groups admin</title>
+    <title>@yield('title') | Nanova Commercial admin</title>
     <link rel="icon" href="{{ asset('assets/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('assets/adminlte/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}?v={{ filemtime(base_path('assets/admin/admin.css')) }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -36,7 +36,7 @@
 
     <aside class="main-sidebar sidebar-dark-primary">
         <a href="{{ route('admin.dashboard') }}" class="brand-link">
-            <span class="brand-text">Nanova Groups</span>
+            <img src="{{ $brandLogo }}" alt="Nanova Commercial" class="brand-logo">
         </a>
         <div class="sidebar">
             <nav class="mt-2">

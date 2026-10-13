@@ -58,12 +58,21 @@ class ContentManagementTest extends TestCase
 
     public function test_every_public_page_renders_seeded_content(): void
     {
-        $this->get('/')->assertOk()->assertSee('Who we are ?')->assertSee('MD. Ziaul Khan');
-        $this->get('/aboutus')->assertOk()->assertSee('We Are Nanova Groups');
-        $this->get('/project/hotel/sunwave')->assertOk()->assertSee('CATEGORY OF OWNERSHIP');
+        $this->get('/')->assertOk()->assertSee('Who we are ?')->assertSee('Our Projects')->assertDontSee('MD. Ziaul Khan');
+        $this->get('/aboutus')->assertOk()->assertSee('We Are Nanova Commercial')->assertSee('NANOVA E-SHOP')->assertSee('nanovashopbd@gmail.com');
+        $this->get('/project/hotel/sunwave')->assertOk()->assertSee('CATEGORY OF OWNERSHIP')
+            ->assertSee('Important Place of Kuakata')->assertSee('Gangamatir Char')->assertSee('assets/kuakata/red-crab-1.jpg');
+        $this->get('/project/condominium')->assertOk()->assertSee('Nanova Condominium')->assertSee('Ongoing project');
         $this->get('/project-detail')->assertOk()->assertSee('BASEMENT FLOOR PLAN');
         $this->get('/gallery')->assertOk()->assertSee('Our Gallery');
         $this->get('/contact')->assertOk()->assertSee('Corporate Office');
+    }
+
+    public function test_project_menu_links_condominium_and_drops_isp(): void
+    {
+        $this->get('/')
+            ->assertSee('href="/project/condominium"', false)
+            ->assertDontSee('Song Jozan Internet');
     }
 
     public function test_seeder_does_not_overwrite_admin_edits(): void
@@ -204,24 +213,23 @@ class ContentManagementTest extends TestCase
     public function test_items_can_be_added_hidden_reordered_and_deleted(): void
     {
         $this->actingAs($this->admin());
-        $team = $this->section('home', 'team');
+        $values = $this->section('about', 'values');
 
-        $this->post(route('admin.items.store', ['home', 'team']), [
-            'title' => 'Nusrat Jahan',
-            'subtitle' => 'Accounts Officer',
-            'image' => UploadedFile::fake()->image('nusrat.jpg'),
+        $this->post(route('admin.items.store', ['about', 'values']), [
+            'title' => 'Keep every promise',
+            'image' => UploadedFile::fake()->image('promise.jpg'),
             'is_active' => '1',
-        ])->assertRedirect(route('admin.sections.edit', ['home', 'team']));
+        ])->assertRedirect(route('admin.sections.edit', ['about', 'values']));
 
-        $member = $team->items()->where('title', 'Nusrat Jahan')->firstOrFail();
-        $this->assertSame(11, $member->sort_order);
-        $this->get('/')->assertSee('Nusrat Jahan');
+        $member = $values->items()->where('title', 'Keep every promise')->firstOrFail();
+        $this->assertSame(13, $member->sort_order);
+        $this->get('/aboutus')->assertSee('Keep every promise');
 
         $this->patch(route('admin.items.move', [$member, 'up']));
-        $this->assertSame(['Nusrat Jahan', 'Mahfijur Rahman Jewel'], $team->items()->pluck('title')->slice(-2)->values()->all());
+        $this->assertSame(['Keep every promise', 'Positive Mind never give-up & believe in growth'], $values->items()->pluck('title')->slice(-2)->values()->all());
 
-        $this->put(route('admin.items.update', $member), ['title' => 'Nusrat Jahan', 'subtitle' => 'Accounts Officer', 'is_active' => '0']);
-        $this->freshRequest()->get('/')->assertDontSee('Nusrat Jahan');
+        $this->put(route('admin.items.update', $member), ['title' => 'Keep every promise', 'is_active' => '0']);
+        $this->freshRequest()->get('/aboutus')->assertDontSee('Keep every promise');
 
         $upload = $member->fresh()->image;
         $this->delete(route('admin.items.destroy', $member))->assertRedirect();
@@ -233,7 +241,7 @@ class ContentManagementTest extends TestCase
     public function test_menu_links_belong_to_a_category(): void
     {
         $this->actingAs($this->admin());
-        $land = $this->section('layout', 'project_menu')->items()->where('title', 'Land')->firstOrFail();
+        $land = $this->section('layout', 'project_menu')->items()->where('title', 'Hotel')->firstOrFail();
 
         $this->post(route('admin.items.store', ['layout', 'project_menu', 'parent' => $land->id]), [
             'title' => 'Purbachal Plots',
@@ -244,7 +252,7 @@ class ContentManagementTest extends TestCase
         $this->assertSame($land->id, SectionItem::where('title', 'Purbachal Plots')->value('parent_id'));
         $this->get('/')->assertSee('Purbachal Plots')->assertSee('/project/land/purbachal');
 
-        $foreignParent = $this->section('home', 'team')->items()->first();
+        $foreignParent = $this->section('about', 'values')->items()->first();
         $this->post(route('admin.items.store', ['layout', 'project_menu', 'parent' => $foreignParent->id]), ['title' => 'x'])
             ->assertNotFound();
     }

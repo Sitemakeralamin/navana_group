@@ -8,7 +8,7 @@
         <meta name="title" content="{{ $seo->title }}" />
         <meta name="description" content="{{ $seo->body }}" />
         <meta name="keywords" content="{{ $seo->value('keywords') }}" />
-        <meta name="author" content="Nanova Groups" />
+        <meta name="author" content="Nanova Commercial" />
         <meta name="robots" content="index, follow" />
 
         <!-- Open graph / Facebook Default -->
@@ -20,7 +20,7 @@
         <meta property="og:image:height" content="630" />
         <meta property="og:url" content="http://www.nanovagroups.com/aboutus">
         <meta property="og:type" content="website">
-        <meta property="og:site_name" content="Nanova Groups">
+        <meta property="og:site_name" content="Nanova Commercial">
         <meta property="og:locale" content="en_US">
 
         <!-- Open graph / Twitter Card -->

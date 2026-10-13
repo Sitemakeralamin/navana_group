@@ -1,7 +1,76 @@
 @extends('clientend.layouts.master')
 @section('title','About Us')
 @section('page-style')
+<style>
+    .sister-logo {
+        display: flex;
+        justify-content: center;
+        padding: 16px;
+    }
 
+    .sister-logo img {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+    }
+
+    .sister-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px 32px;
+        padding: 16px 0;
+    }
+
+    .sister-item {
+        border-left: 3px solid #00aeef;
+        padding-left: 16px;
+    }
+
+    .sister-item__name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1b3a5c;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+
+    .sister-item__details {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 4px 12px;
+        margin: 0;
+        font-size: 15px;
+    }
+
+    .sister-item__details dt {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .sister-item__details dd {
+        margin: 0;
+        color: #222;
+        word-break: break-word;
+    }
+
+    .sister-item__details a {
+        color: inherit;
+    }
+
+    .sister-item__details a:hover {
+        color: #00aeef;
+    }
+
+    @media (max-width: 767px) {
+        .sister-list {
+            grid-template-columns: 1fr;
+        }
+
+        .sister-logo img {
+            max-width: 120px;
+        }
+    }
+</style>
 @endsection
 @section('main')
     @php
@@ -41,27 +110,35 @@
         <div class="container" style="display: flex; align-items: center; justify-content: center;">
             <div class="branch__container">
                 <h2 class="aboutus__title">{{ $sister->title }}</h2>
-                <div id="circle-shape-example">
-                    <div class="row">
-                        <div id="sis_consirn_img" class="col-lg-4 col-md-4" style="display: flex; flex-direction: column;align-items: center; justify-content: center;">
-                            <img src="{{ $sister->src() }}" alt="Nanova Groups logo" class="curve" height="60%" width="60%">
-                        </div>
-                        <div class="col-lg-8 col-md-8">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-4 sister-logo">
+                        <img src="{{ $sister->src() }}" alt="Nanova Commercial logo">
+                    </div>
+                    <div class="col-lg-9 col-md-8">
+                        <div class="sister-list">
                             @foreach ($sister->visibleItems() as $concern)
-                                <div class="moto">
-
-                                    <div class="sister__brand">
-                                        <h6 class="offset-1 font-size-20  slide__right">
-                                            {{ $concern->title }}
-                                        </h6>
-                                        <p class=" offset-1 text-black">
-                                            {{ $concern->subtitle }}
-                                        </p>
-                                    </div>
-
+                                <div class="sister-item">
+                                    <h3 class="sister-item__name">{{ $concern->title }}</h3>
+                                    <dl class="sister-item__details">
+                                        @foreach (['phone' => 'Phone', 'email' => 'Email', 'website' => 'Website', 'address' => 'Address'] as $field => $label)
+                                            @if ($value = $concern->value($field))
+                                                <dt>{{ $label }}</dt>
+                                                <dd>
+                                                    @if ($field === 'phone')
+                                                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', $value) }}">{{ $value }}</a>
+                                                    @elseif ($field === 'email')
+                                                        <a href="mailto:{{ $value }}">{{ $value }}</a>
+                                                    @elseif ($field === 'website')
+                                                        <a href="{{ str_starts_with($value, 'http') ? $value : 'https://'.$value }}" target="_blank" rel="noopener">{{ $value }}</a>
+                                                    @else
+                                                        {{ $value }}
+                                                    @endif
+                                                </dd>
+                                            @endif
+                                        @endforeach
+                                    </dl>
                                 </div>
                             @endforeach
-
                         </div>
                     </div>
                 </div>
@@ -81,7 +158,7 @@
                         @foreach ($mission->visibleItems() as $point)
                             <li>
                                 <div class="mission_list_wrap">
-                                    <img style="width:30px;height:30px;padding:5px;background:#fff;border-radius:5px;" src="{{ $mission->src('bullet') }}" alt="Nanova Groups resort" />
+                                    <img style="width:30px;height:30px;padding:5px;background:#fff;border-radius:5px;" src="{{ $mission->src('bullet') }}" alt="Nanova Commercial resort" />
                                     <div>{{ $point->title }}</div>
                                 </div>
                             </li>

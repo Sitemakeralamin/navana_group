@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Cms\SiteContent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,9 +14,12 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function showLogin(): View
+    public function showLogin(SiteContent $site): View
     {
-        return view('admin.auth.login');
+        return view('admin.auth.login', [
+            'logo' => $site->page('layout')->section('brand')->src() ?: asset('assets/logo.png'),
+            'photo' => $site->page('home')->section('hero')->visibleItems()->first()?->src(),
+        ]);
     }
 
     public function login(Request $request): RedirectResponse

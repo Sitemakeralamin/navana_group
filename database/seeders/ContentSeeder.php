@@ -25,8 +25,14 @@ class ContentSeeder extends Seeder
         });
     }
 
-    private function seedSection(string $page, string $key, array $fields, array $items): void
+    /**
+     * Creates one section from the content below unless it already exists.
+     */
+    public function seedSection(string $page, string $key, ?array $fields = null, ?array $items = null): void
     {
+        $fields ??= $this->content()[$page][$key]['fields'] ?? [];
+        $items ??= $this->content()[$page][$key]['items'] ?? [];
+
         if (PageSection::where('page', $page)->where('key', $key)->exists()) {
             return;
         }
@@ -38,6 +44,23 @@ class ContentSeeder extends Seeder
         $section->save();
 
         $this->seedItems($section, $items);
+    }
+
+    /**
+     * Swaps a section's list for the one defined below, keeping the section's own fields.
+     */
+    public function replaceItems(string $page, string $key): void
+    {
+        $section = PageSection::where('page', $page)->where('key', $key)->first();
+
+        if (! $section) {
+            $this->seedSection($page, $key);
+
+            return;
+        }
+
+        $section->items()->delete();
+        $this->seedItems($section, $this->content()[$page][$key]['items'] ?? []);
     }
 
     private function seedItems(PageSection $section, array $items, ?SectionItem $parent = null): void
@@ -73,6 +96,8 @@ class ContentSeeder extends Seeder
         $mirpurAddress = '971, East Sewrapara (2nd Floor), Begum Rokeya Sharani Road, Kafrul, Mirpur, Dhaka-1216';
         $brochure = 'assets/Home/GROUND FLOOR PLAN.pdf';
         $bestWestern = 'assets/bestWestern.webp';
+        $kuakata = 'assets/kuakata/';
+        $phone = '+88 01945-484848';
 
         return [
             'layout' => [
@@ -81,12 +106,9 @@ class ContentSeeder extends Seeder
                     ['title' => 'Hotel', 'children' => [
                         ['title' => 'SUN Wave Hotel & Resort', 'link_url' => '/project/hotel/sunwave'],
                     ]],
-                    ['title' => 'Land'],
+                    ['title' => 'Nanova Condominium', 'link_url' => '/project/condominium'],
                     ['title' => 'Online Shop', 'children' => [
                         ['title' => 'Nanova Shop', 'link_url' => 'https://nanovashop.com'],
-                    ]],
-                    ['title' => 'ISP', 'children' => [
-                        ['title' => 'Song Jozan Internet', 'link_url' => 'isp.html'],
                     ]],
                 ]],
                 'contact' => ['fields' => [
@@ -95,7 +117,7 @@ class ContentSeeder extends Seeder
                     'whatsapp' => '+880 1945 484848',
                     'link_url' => 'https://wa.me/8801945484848',
                     'image' => 'assets/payment.webp',
-                    'copyright' => '© 2024 Nanova Groups. All rights reserved.',
+                    'copyright' => '© 2024 Nanova Commercial. All rights reserved.',
                     'powered_by' => 'INFO CARE',
                     'powered_by_url' => 'https://infocarebd.com/',
                 ]],
@@ -112,8 +134,8 @@ class ContentSeeder extends Seeder
                 ]],
                 'seo' => ['fields' => [
                     'title' => 'Number One Hotel Developer Company in Bangladesh',
-                    'body' => 'Learn about Nanova Groups, a leading real estate and hospitality development company in Bangladesh. We build premium projects with innovation, quality, and long-term value.',
-                    'keywords' => 'Nanova Groups, hotel developer Bangladesh, luxury hotels, real estate Bangladesh, hospitality investment, premium projects Bangladesh',
+                    'body' => 'Learn about Nanova Commercial, a leading real estate and hospitality development company in Bangladesh. We build premium projects with innovation, quality, and long-term value.',
+                    'keywords' => 'Nanova Commercial, hotel developer Bangladesh, luxury hotels, real estate Bangladesh, hospitality investment, premium projects Bangladesh',
                     'image' => 'https://nanovagroups.com/assets/logo.webp',
                 ]],
             ],
@@ -131,7 +153,7 @@ class ContentSeeder extends Seeder
                 ]],
                 'about' => ['fields' => [
                     'title' => 'Who we are ?',
-                    'body' => 'Nanova Groups is Bangladesh’s top hotel development and investment company, dedicated to quality and precision in every project. We guide our partners and investors toward consistent growth and high profits by streamlining our development processes. Our primary mission is to build world-class hotels and suites in Cox’s Bazar, the world\'s longest beach, and Kuakata, a scenic paradise on the Bay of Bengal. By designing projects with unique, customer-focused features, we secure valuable ventures with excellent profit-sharing for our owners. Our team of experts supports you through every single phase—from your initial investment idea to the hotel\'s grand opening—to guarantee an economically stable and highly successful business that boosts local tourism.',
+                    'body' => 'Nanova Commercial is Bangladesh’s top hotel development and investment company, dedicated to quality and precision in every project. We guide our partners and investors toward consistent growth and high profits by streamlining our development processes. Our primary mission is to build world-class hotels and suites in Cox’s Bazar, the world\'s longest beach, and Kuakata, a scenic paradise on the Bay of Bengal. By designing projects with unique, customer-focused features, we secure valuable ventures with excellent profit-sharing for our owners. Our team of experts supports you through every single phase—from your initial investment idea to the hotel\'s grand opening—to guarantee an economically stable and highly successful business that boosts local tourism.',
                     'image' => 'assets/main-logo.png',
                     'button_text' => 'We Work With',
                 ]],
@@ -159,7 +181,7 @@ class ContentSeeder extends Seeder
                 ],
                 'why_invest' => [
                     'fields' => [
-                        'title' => 'Why Should You Invest in Nanova Groups ?',
+                        'title' => 'Why Should You Invest in Nanova Commercial ?',
                         'image' => 'assets/ghrweb/Sites/GHRWEB/assets/7bf67fc3-1cc8-42cd-8bc2-aecca177107f.jpg',
                         'link_url' => 'https://www.youtube.com/watch?v=APCsrnYlGUs',
                     ],
@@ -184,35 +206,22 @@ class ContentSeeder extends Seeder
                         ['image' => $benefitIcon.'ffb0e29a-f355-4204-a13f-5687f3e4ec09.jpg', 'title' => 'A modern investment opportunity that offers long-term assets, regular income potential, and family security.'],
                     ],
                 ],
-                'team' => [
-                    'fields' => ['title' => 'Our Team'],
-                    'items' => [
-                        ['image' => 'assets/md.jpg', 'title' => 'MD. Ziaul Khan', 'subtitle' => 'Managing Director (MD)'],
-                        ['image' => 'assets/akbor.png', 'title' => 'Akbor Hossen', 'subtitle' => 'Head of Marketing'],
-                        ['image' => 'assets/technical-engineer.jpg', 'title' => 'Anisur Rahman', 'subtitle' => 'Chief Engineer'],
-                        ['image' => 'assets/romana.jpg', 'title' => 'Romana Prodhan', 'subtitle' => 'HR Admin'],
-                        ['title' => 'Aowal Hossan', 'subtitle' => 'Senior Technical Expert'],
-                        ['image' => 'assets/limon.png', 'title' => 'Limon Hasan', 'subtitle' => 'Senior Technical Expert'],
-                        ['image' => 'assets/rahat.jpg', 'title' => 'Md. Rahat Hossain', 'subtitle' => 'Assistant Marketing'],
-                        ['image' => 'assets/shihab.jpeg', 'title' => 'Md. Shihab', 'subtitle' => 'Technical Assistant'],
-                        ['image' => 'assets/khorshed_Alom.jpg', 'title' => 'Khorshed Alom', 'subtitle' => 'Sales Executive'],
-                        ['image' => 'assets/mahfijur.jpg', 'title' => 'Mahfijur Rahman Jewel', 'subtitle' => 'Sales Executive'],
-                    ],
-                ],
+                'project_gallery' => ['fields' => ['title' => 'Our Projects', 'button_text' => 'View full gallery']],
             ],
 
             'about' => [
                 'intro' => ['fields' => [
-                    'title' => 'We Are Nanova Groups',
-                    'body' => 'Nanova Groups is Bangladesh’s number one hotel developer and investment company, shaping the future of hospitality, tourism, and real estate since 2015. Alongside premium hotel projects like Best Western Plus Bay Hills Himchhari, Bay Sands, Bay Marina, and Bay Breeze, we have also developed landmark residential projects, including Amin City Purbachol and Gold City Mawa. Driven by quality, innovation, and long-term vision, we create profitable investment opportunities that combine luxury, trust, and sustainable growth. Through legally secured ownership, we make premium property and hotel investments accessible for everyday Bangladeshis — creating a trusted path toward long-term asset value.',
+                    'title' => 'We Are Nanova Commercial',
+                    'body' => 'Nanova Commercial is Bangladesh’s number one hotel developer and investment company, shaping the future of hospitality, tourism, and real estate since 2015. Alongside premium hotel projects like Best Western Plus Bay Hills Himchhari, Bay Sands, Bay Marina, and Bay Breeze, we have also developed landmark residential projects, including Amin City Purbachol and Gold City Mawa. Driven by quality, innovation, and long-term vision, we create profitable investment opportunities that combine luxury, trust, and sustainable growth. Through legally secured ownership, we make premium property and hotel investments accessible for everyday Bangladeshis — creating a trusted path toward long-term asset value.',
                     'image' => 'assets/ghrweb/Sites/GHRWEB/AboutPageImg/e8a1b74d-3dac-4c67-b29a-dc0d6914b479.jpg',
                 ]],
                 'sister_concern' => [
-                    'fields' => ['title' => 'Nanova Groups SISTER CONCERN', 'image' => 'assets/main-logo.png'],
+                    'fields' => ['title' => 'Nanova Commercial SISTER CONCERN', 'image' => 'assets/main-logo.png'],
                     'items' => [
-                        ['title' => 'Sun Wave Hotel & Resort', 'subtitle' => 'A Trusted Destination for memorable moments'],
-                        ['title' => 'Nanova Project management', 'subtitle' => "Nanova Project Management specializes in comprehensive and efficient project execution\r\nPioneering"],
-                        ['title' => 'Nanova Shop', 'subtitle' => 'Nanova Shop introduces a Huge amount of Products store in Dhaka'],
+                        ['title' => 'NANOVA COMMERCIAL', 'phone' => $phone, 'email' => 'nanovagroups@gmail.com', 'website' => 'www.nanovagroups.com'],
+                        ['title' => 'NANOVA E-SHOP', 'phone' => '+88 01923-464646', 'email' => 'nanovashopbd@gmail.com', 'website' => 'www.nanovashop.com'],
+                        ['title' => 'NANOVA CONDOMINIUM', 'phone' => $phone, 'email' => 'nanovagroups@gmail.com', 'address' => 'Purbachal, Rupganj'],
+                        ['title' => 'SUN WAVE HOTEL', 'phone' => $phone, 'address' => 'Hotel & Resort, Kuakata, Pourashava Ward-03, Kalapara, Mohipur, Patuakhali'],
                     ],
                 ],
                 'mission' => [
@@ -228,7 +237,7 @@ class ContentSeeder extends Seeder
                 ],
                 'vision' => ['fields' => [
                     'title' => 'OUR  VISION',
-                    'body' => 'Join us on this journey as we redefine real estate standards, transform spaces into homes, source of halal income  and create environments that inspire progress. Together, we are architects of dreams, shaping a future where Nanova Groups is synonymous with excellence, compassion, and the realization of aspirations. Welcome to a world where your real estate goals become our shared vision for a brighter tomorrow. Nanova Groups stands as a symbol of trust, innovation, and integrity. We aspire to be the go-to real estate partner, recognized for our unwavering commitment to understanding and meeting the unique needs of our clients.',
+                    'body' => 'Join us on this journey as we redefine real estate standards, transform spaces into homes, source of halal income  and create environments that inspire progress. Together, we are architects of dreams, shaping a future where Nanova Commercial is synonymous with excellence, compassion, and the realization of aspirations. Welcome to a world where your real estate goals become our shared vision for a brighter tomorrow. Nanova Commercial stands as a symbol of trust, innovation, and integrity. We aspire to be the go-to real estate partner, recognized for our unwavering commitment to understanding and meeting the unique needs of our clients.',
                     'image' => 'assets/ghrweb/Sites/GHRWEB/AboutPageImg/f05a06f0-f7b6-426b-b196-98405a96b28c.jpg',
                 ]],
                 'values' => [
@@ -250,7 +259,7 @@ class ContentSeeder extends Seeder
                 ],
                 'csr' => ['fields' => [
                     'title' => 'Social Responsibility',
-                    'body' => 'As an integral aspect of our Corporate Social Responsibility, Nanova Groups actively participates in various charitable initiatives, community volunteering endeavors, and implements corporate policies that contribute to environmental well-being through diverse programs. Here at Nanova, we give great importance to Corporate Social Responsibility (CSR). Nanova undertakes business activities which benefit not only our company and our clients, but also the economy, the society that we live in and our surrounding environment simultaneously. The idea behind Corporate Social Responsibility is to create a framework that encourages responsible behavior by businesses, and Nanova Hotels & Resorts Ltd. intends to adhere to this ideology. We strive to keep social progress, protection of the environment and careful use of natural resources at the forefront when determining our business objectives, so that a superior standard of living is ensured for present and future generations.',
+                    'body' => 'As an integral aspect of our Corporate Social Responsibility, Nanova Commercial actively participates in various charitable initiatives, community volunteering endeavors, and implements corporate policies that contribute to environmental well-being through diverse programs. Here at Nanova, we give great importance to Corporate Social Responsibility (CSR). Nanova undertakes business activities which benefit not only our company and our clients, but also the economy, the society that we live in and our surrounding environment simultaneously. The idea behind Corporate Social Responsibility is to create a framework that encourages responsible behavior by businesses, and Nanova Hotels & Resorts Ltd. intends to adhere to this ideology. We strive to keep social progress, protection of the environment and careful use of natural resources at the forefront when determining our business objectives, so that a superior standard of living is ensured for present and future generations.',
                     'image' => 'assets/ghrweb/Sites/GHRWEB/CSRPageImg/5b47407a-3f3d-47b4-ae8d-51e382821fca.jpg',
                 ]],
             ],
@@ -258,15 +267,33 @@ class ContentSeeder extends Seeder
             'sunwave' => [
                 'banner' => ['fields' => ['image' => 'assets/ghrweb/Sites/GHRWEB/ProjectBanner/2eace455-2f4f-4199-8712-500fc21d0dca.jpg']],
                 'intro' => ['fields' => [
-                    'title' => 'Sun Wave Hotel and Resort',
+                    'title' => 'Important Place of Kuakata',
                     'body' => "Kuakata is a highly promising tourist destination in the southern region of Bangladesh, located in Patuakhali District. It is becoming increasingly popular among local and international tourists due to its sea beach and natural beauty.\n\nAfter Cox’s Bazar, Kuakata is known as one of the most attractive sea beaches in Bangladesh. It offers the rare opportunity to enjoy both sunrise and sunset from the same location, which gives Kuakata a unique position on the tourism map of the country.\n\nConsidering this potential, Sun Wave Hotel & Resort has taken the initiative to develop a modern, attractive, and international-standard hotel-resort project in Kuakata.\n\nOur main objective is to ensure safe, comfortable, and enjoyable accommodation facilities for tourists, while also creating a profitable and reliable investment opportunity for investors.",
                     'image' => $banner.'Sunwave-front-view.jpg',
                     'link_url' => $sunwaveMap.'/data',
                     'brochure' => $brochure,
                     'popup_title' => 'Sun Wave Hotel & Resort',
-                    'popup_body' => 'Sun Wave Hotel and Resort, Kuakata is the iconic flagship 4-star property by Nanova Group. Located in scenic Kuakata, this upscale hotel is a masterpiece of modern architecture, elegant decor, and luxury amenities. Guests can look forward to world-class, professional service that makes every leisure moment unforgettable. Nestled perfectly between the hills and the sea, the hotel offers a uniquely breathtaking view of the Bay of Bengal, panoramic mountain waterfalls, and lush greenery.',
+                    'popup_body' => 'Sun Wave Hotel and Resort, Kuakata is the iconic flagship 4-star property by Nanova Commercial. Located in scenic Kuakata, this upscale hotel is a masterpiece of modern architecture, elegant decor, and luxury amenities. Guests can look forward to world-class, professional service that makes every leisure moment unforgettable. Nestled perfectly between the hills and the sea, the hotel offers a uniquely breathtaking view of the Bay of Bengal, panoramic mountain waterfalls, and lush greenery.',
                     'popup_image' => $banner.'Sunwave-front-view.jpg',
                 ]],
+                'places' => ['items' => array_map(
+                    fn (array $place) => ['title' => $place[0], 'children' => array_map(
+                        fn (array $photo) => ['image' => $kuakata.$photo[0], 'title' => $photo[1]],
+                        $place[1]
+                    )],
+                    [
+                        ['Char Bijoy', [['bijoyer-char-1.jpg', 'Char Bijoy, risen from the Bay of Bengal'], ['bijoyer-char-2.jpg', 'Char Bijoy']]],
+                        ['Jhau Forest', [['jhau-bon-1.jpg', 'View from the protected Jhau forest'], ['jhau-bon-2.jpg', 'Trees on Kuakata beach']]],
+                        ['Fatrar Forest', [['fatrar-bon-1.jpg', 'Fatrar Bon, part of the Sundarbans'], ['fatrar-bon-2.jpg', 'Canal through Fatrar Bon'], ['fatrar-bon-3.jpg', 'Fatrar Bon tourist spot'], ['fatrar-bon-4.jpg', 'Fatrar Bon']]],
+                        ['Red Crab Beach', [['red-crab-1.jpg', 'Red crabs where three rivers meet the sea'], ['red-crab-2.jpg', 'Crab trails in the sand'], ['red-crab-3.jpg', 'Crab burrows on the beach']]],
+                        ['Lebur Forest', [['lebur-bon-1.jpg', 'Lebur Bon by the sea'], ['lebur-bon-2.jpg', 'Lebur Bon'], ['lebur-bon-3.jpg', 'Mangrove trees at Lebur Bon']]],
+                        ['Shutki Polli', [['shutki-polli-1.jpg', 'Fish drying in the shutki polli'], ['shutki-polli-2.jpg', 'Dried fish']]],
+                        ['Rakhine Polli', [['rakhine-polli-1.jpg', 'Buddhist temple in the Rakhine polli'], ['rakhine-polli-2.jpg', 'Rakhine women weaving'], ['rakhine-polli-3.jpg', 'Rakhine handloom weaver']]],
+                        ['Chakma Polli', [['chakma-polli-1.jpg', 'Buddha statue, Srimangal Buddha Vihar'], ['chakma-polli-2.jpg', 'Sima Buddhist temple']]],
+                        ['Gangamatir Char', [['gangamati-1.jpg', 'Gangamatir Char'], ['gangamati-2.jpg', 'Morning at Gangamatir Char'], ['gangamati-3.jpg', 'Sunrise point']]],
+                        ['Kuakata Char', [['kuakata-char-1.jpg', 'Kuakata sea beach'], ['kuakata-char-2.jpg', 'Sunset at Kuakata'], ['kuakata-char-3.jpg', 'Kuakata beach'], ['kuakata-char-4.jpg', 'Sunrise at Kuakata']]],
+                    ]
+                )],
                 'ownership' => [
                     'fields' => [
                         'title' => 'CATEGORY OF OWNERSHIP',
@@ -325,7 +352,7 @@ class ContentSeeder extends Seeder
             ],
 
             'project_detail' => [
-                'floor_plans' => ['items' => [
+                'floor_plans' => ['fields' => ['title' => 'Sun Wave Hotel & Resort Floor Plans'], 'items' => [
                     ['image' => 'assets/brochure/BASEMENT_FLOOR_PLAN.jpg', 'title' => 'BASEMENT FLOOR PLAN'],
                     ['image' => 'assets/brochure/GROUND_FLOOR_PLAN.jpg', 'title' => 'GROUND FLOOR PLAN'],
                     ['image' => 'assets/brochure/1ST_FLOOR_PLAN.jpg', 'title' => '1ST FLOOR PLAN'],
@@ -352,11 +379,42 @@ class ContentSeeder extends Seeder
                 ],
             ],
 
+            'condominium' => [
+                'intro' => ['fields' => [
+                    'title' => 'Nanova Condominium',
+                    'subtitle' => 'Ongoing project',
+                    'location' => 'Purbachal, Rupganj, Narayanganj',
+                    'body' => "Nanova Condominium is an ongoing residential project by Nanova Commercial in Purbachal, Rupganj, the planned new town on the eastern side of Dhaka.\n\nCall us or visit the office for floor plans, unit sizes and booking details.",
+                    'image' => 'assets/condominium/purbachal-3.jpg',
+                    'image_caption' => 'Purbachal Expressway',
+                ]],
+                'facts' => ['items' => [
+                    ['title' => 'Location', 'subtitle' => 'Purbachal, Rupganj'],
+                    ['title' => 'Status', 'subtitle' => 'Ongoing'],
+                    ['title' => 'Developer', 'subtitle' => 'Nanova Commercial'],
+                    ['title' => 'Enquiries', 'subtitle' => $phone],
+                ]],
+                'features' => [
+                    'fields' => ['title' => 'Why Purbachal'],
+                    'items' => [
+                        ['title' => 'Planned township', 'body' => 'Purbachal New Town is planned by RAJUK, with wide roads, drainage canals and sectors set aside for housing.'],
+                        ['title' => 'Direct link to Dhaka', 'body' => 'The 300 Feet Expressway connects Purbachal with Kuril, the airport and the rest of the city.'],
+                        ['title' => 'Open surroundings', 'body' => 'Canals and green belts run through the area, keeping it quieter than central Dhaka.'],
+                    ],
+                ],
+                'contact' => ['fields' => [
+                    'title' => 'Booking & enquiries',
+                    'phone' => $phone,
+                    'email' => 'nanovagroups@gmail.com',
+                    'address' => 'Purbachal, Rupganj',
+                ]],
+            ],
+
             'contact' => [
                 'hero' => ['fields' => ['image' => 'assets/ghrweb/Sites/GHRWEB/ContactPageImg/contact-hero.jpg']],
                 'intro' => ['fields' => [
                     'title' => 'CONTACT US',
-                    'subtitle' => 'Got a question? We’re just a message away at Nanova Groups Ltd."',
+                    'subtitle' => 'Got a question? We’re just a message away at Nanova Commercial Ltd."',
                 ]],
                 'cards' => ['items' => [
                     ['image' => 'assets/phone-icon.webp', 'title' => 'CALL US', 'subtitle' => '+880 1945 484848', 'link_url' => 'tel:8801945484848', 'button_text' => 'Call'],
