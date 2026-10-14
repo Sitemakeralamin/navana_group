@@ -7,7 +7,7 @@
     <title>Log in | Nanova Commercial admin</title>
     <link rel="icon" href="{{ asset('assets/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('assets/adminlte/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}?v={{ filemtime(base_path('assets/admin/admin.css')) }}">
+    <link rel="stylesheet" href="{{ asset('assets/Admin/admin.css') }}?v={{ filemtime(base_path('assets/Admin/admin.css')) }}">
 </head>
 <body class="auth">
 <main class="auth-layout">
