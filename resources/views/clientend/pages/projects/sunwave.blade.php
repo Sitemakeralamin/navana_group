@@ -52,6 +52,7 @@
         }
 
         .mySlides {
+        display: block;
         position: absolute;
         inset: 0;
         opacity: 0;
